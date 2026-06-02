@@ -113,16 +113,9 @@ The workstation used for these experiments had a conda environment named `py312`
 One way to create a similar environment:
 
 ```bash
-conda create -n py312 python=3.12 -y
-conda activate py312
-pip install -r requirements.txt
+bash requirements.sh
 ```
 
-If you need a specific CUDA-enabled PyTorch build, install PyTorch from the official PyTorch command for your CUDA version first, then install the remaining packages:
-
-```bash
-pip install numpy pandas scikit-learn pymatgen matminer matbench
-```
 
 ## Reproduce From Scratch
 
