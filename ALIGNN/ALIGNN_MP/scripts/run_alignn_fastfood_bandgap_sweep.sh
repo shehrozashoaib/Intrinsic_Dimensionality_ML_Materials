@@ -42,8 +42,11 @@ ensure_dataset() {
   local root_dir="$2"
 
   if [[ -f "${root_dir}/id_prop.json" ]]; then
-    echo "$PRINT_PREFIX using existing dataset ${root_dir}/id_prop.json"
-    return 0
+    if validate_dataset "$root_dir"; then
+      echo "$PRINT_PREFIX using existing dataset ${root_dir}/id_prop.json"
+      return 0
+    fi
+    echo "$PRINT_PREFIX existing dataset ${root_dir}/id_prop.json does not match target=${TARGET_KEY}; regenerating from ${JSONL_PATH}"
   fi
 
   if [[ ! -f "$JSONL_PATH" ]]; then
@@ -58,6 +61,34 @@ ensure_dataset() {
     --id_key "$ID_KEY" \
     --target_key "$TARGET_KEY" \
     --seed "$data_seed"
+
+  validate_dataset "$root_dir"
+}
+
+validate_dataset() {
+  local root_dir="$1"
+  "$PYTHON" - "$root_dir/id_prop.json" "$TARGET_KEY" "$ID_KEY" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+target_key = sys.argv[2]
+id_key = sys.argv[3]
+try:
+    with path.open() as f:
+        data = json.load(f)
+    if not isinstance(data, list) or not data:
+        raise ValueError("id_prop.json is empty or is not a JSON list")
+    first = data[0]
+    missing = [key for key in (id_key, target_key, "atoms") if key not in first]
+    if missing:
+        raise KeyError(f"missing keys {missing}; found keys {list(first.keys())[:8]}")
+except Exception as exc:
+    print(f"[dataset-check] invalid {path}: {exc}", file=sys.stderr)
+    sys.exit(1)
+print(f"[dataset-check] valid {path}: n={len(data)}, target_key={target_key}, id_key={id_key}")
+PY
 }
 
 append_metadata() {
@@ -84,7 +115,7 @@ append_metadata() {
   local start_time="${21}"
   local end_time="${22}"
 
-  conda run -n "$CONDA_ENV" "$PYTHON" - "$summary_csv" "$metadata_json" "$log_file" "$pred_csv" "$history_json" \
+  "$PYTHON" - "$summary_csv" "$metadata_json" "$log_file" "$pred_csv" "$history_json" \
     "$task" "$target_key" "$wrapper" "$id_dim" "$id_dim_percent" "$data_seed" "$model_seed" "$split_seed" \
     "$epochs" "$batch_size" "$root_dir" "$output_dir" "$duration_sec" "$status" "$exit_code" "$start_time" "$end_time" <<'PY'
 import csv
@@ -170,6 +201,20 @@ print(f"[metadata] {Path(output_dir).name} status={status} best_val_mae={best_va
 PY
 }
 
+recover_duration_sec() {
+  local log_file="$1"
+  "$PYTHON" - "$log_file" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+text = path.read_text(errors="replace") if path.exists() else ""
+matches = re.findall(r"Time taken \(s\)\s*([-+0-9.eE]+)", text)
+print(int(float(matches[-1])) if matches else 0)
+PY
+}
+
 run_one() {
   local root_dir="$1"
   local data_seed="$2"
@@ -188,6 +233,16 @@ run_one() {
 
   if [[ -f "$metadata_json" ]] && grep -q '"status": "success"' "$metadata_json"; then
     echo "$PRINT_PREFIX skipping completed ${run_name}"
+    return 0
+  fi
+
+  if [[ -s "$pred_csv" && -s "$history_json" ]]; then
+    local recovered_duration_sec
+    recovered_duration_sec="$(recover_duration_sec "$log_file")"
+    append_metadata "$SUMMARY_CSV" "$metadata_json" "$log_file" "$pred_csv" "$history_json" \
+      "mp_bandgap" "$TARGET_KEY" "$WRAPPER" "$id_dim" "$id_dim_percent" "$data_seed" "$model_seed" "$split_seed" \
+      "$EPOCHS" "${BATCH_SIZE:-config}" "$root_dir" "$out_dir" "$recovered_duration_sec" "success" 0 "recovered" "recovered"
+    echo "$PRINT_PREFIX skipping completed ${run_name} (found test predictions/history; recovered metadata)"
     return 0
   fi
 
