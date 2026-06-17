@@ -131,6 +131,8 @@ Important CLI flags:
 
 `--random_seed` controls model initialization and the random Fastfood projection. `--split_seed` controls train/validation/test splitting. The sweep script uses the same value for both within each data-seed condition.
 
+By default, seeded runs set Python, NumPy, Torch, and CUDA RNG state without forcing PyTorch's slow deterministic CUDA kernels. If strict deterministic kernels are required, set `ALIGNN_DETERMINISTIC=1` in the environment before running training.
+
 ## Single Run Example
 
 From `ALIGNN/ALIGNN_MP/alignn`:
