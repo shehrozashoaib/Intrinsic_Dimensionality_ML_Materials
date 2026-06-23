@@ -765,114 +765,15 @@ def train_dgl(
                     saving_msg=saving_msg,
                 )
 
-        if rank == 0 or world_size == 1:
-            net.eval()
-            with torch.inference_mode():
-                test_loss = 0
-                test_result = []
-                for dats, jid in zip(test_loader, test_loader.dataset.ids):
-                    # for dats in test_loader:
-                    info = {}
-                    info["id"] = jid
-                    # if (config.model.alignn_layers) > 0:
-                    # if (config.create_line_graph) > 0:
-                    if (config.compute_line_graph) > 0:
-                        # result = net([dats[0].to(device), dats[1].to(device)])
-                        result = net(
-                            [
-                                dats[0].to(device),
-                                dats[1].to(device),
-                                dats[2].to(device),
-                            ]
-                        )
-                    else:
-                        result = net([dats[0].to(device), dats[1].to(device)])
-                        # result = net(dats[0].to(device))
-                    loss1 = 0  # Such as energy
-                    loss2 = 0  # Such as bader charges
-                    loss3 = 0  # Such as forces
-                    loss4 = 0  # Such as stresses
-                    if (
-                        config.model.output_features is not None
-                        and not classification
-                    ):
-                        # print('result["out"]',result["out"])
-                        # print('dats[2]',dats[2])
-                        loss1 = config.model.graphwise_weight * criterion(
-                            result["out"], dats[-1].to(device)
-                        )
-                        info["target_out"] = dats[-1].cpu().numpy().tolist()
-                        info["pred_out"] = (
-                            result["out"].cpu().detach().numpy().tolist()
-                        )
-
-                    if config.model.atomwise_output_features > 0:
-                        loss2 = config.model.atomwise_weight * criterion(
-                            result["atomwise_pred"].to(device),
-                            dats[0].ndata["atomwise_target"].to(device),
-                        )
-                        info["target_atomwise_pred"] = (
-                            dats[0].ndata["atomwise_target"].cpu().numpy().tolist()
-                        )
-                        info["pred_atomwise_pred"] = (
-                            result["atomwise_pred"].cpu().detach().numpy().tolist()
-                        )
-
-                    if config.model.calculate_gradient:
-                        loss3 = config.model.gradwise_weight * criterion(
-                            result["grad"].to(device),
-                            dats[0].ndata["atomwise_grad"].to(device),
-                        )
-                        info["target_grad"] = (
-                            dats[0].ndata["atomwise_grad"].cpu().numpy().tolist()
-                        )
-                        info["pred_grad"] = (
-                            result["grad"].cpu().detach().numpy().tolist()
-                        )
-                    if config.model.stresswise_weight != 0:
-
-                        targ_stress = torch.stack(
-                            [
-                                gg.ndata["stresses"][0]
-                                for gg in dgl.unbatch(dats[0])
-                            ]
-                        ).to(device)
-                        pred_stress = result["stresses"]
-                        # print('targ_stress',targ_stress,targ_stress.shape)
-                        # print('pred_stress',pred_stress,pred_stress.shape)
-                        loss4 = config.model.stresswise_weight * criterion(
-                            pred_stress.to(device),
-                            targ_stress.to(device),
-                        )
-                        info["target_stress"] = (
-                            targ_stress.cpu()
-                            .numpy()
-                            .tolist()
-                            # dats[0].ndata["stresses"][0].cpu().numpy().tolist()
-                        )
-                        info["pred_stress"] = (
-                            result["stresses"].cpu().detach().numpy().tolist()
-                        )
-
-                    test_result.append(info)
-                    loss = loss1 + loss2 + loss3 + loss4
-                    if not classification:
-                        test_loss += loss.item()
-            print("TestLoss", e, test_loss)
-            dumpjson(
-                filename=os.path.join(config.output_dir, "Test_results.json"),
-                data=test_result,
-            )
-            # Save last checkpoint only if enabled; guard against disk-full
-            if _SAVE_LAST:
-                try:
-                    last_model_name = os.path.join(config.output_dir, "last_model.pt")
-                    _atomic_torch_save(net.state_dict(), last_model_name)
-                except OSError as e:
-                    print(f"[save] failed to write last model (OS error): {e}")
-                except Exception as e:
-                    print(f"[save] failed to write last model: {e}")
-            # return test_result
+        if _SAVE_LAST and (rank == 0 or world_size == 1):
+            # Keep this optional; the expensive test-set pass runs once after training.
+            try:
+                last_model_name = os.path.join(config.output_dir, "last_model.pt")
+                _atomic_torch_save(net.state_dict(), last_model_name)
+            except OSError as e:
+                print(f"[save] failed to write last model (OS error): {e}")
+            except Exception as e:
+                print(f"[save] failed to write last model: {e}")
     if rank == 0 or world_size == 1:
         if config.write_predictions and classification:
             best_model.eval()
