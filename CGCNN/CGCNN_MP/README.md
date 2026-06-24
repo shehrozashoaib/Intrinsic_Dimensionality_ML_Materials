@@ -56,7 +56,7 @@ Fractions swept and seeds:
 
 | Target | id-dim fractions | model/split seeds | runs |
 |--------|------------------|-------------------|------|
-| Formation energy | 100, 80, 60, 50, 45, 20, 10 % | 123/1123, 456/1456 (+789/1789 for 45 & 60 %) | 16 |
+| Formation energy | 100, 80, 60, 50, 45, 20, 15, 10 % | 123/1123, 456/1456 (+789/1789 for 45 & 60 %) | 18 |
 | Band gap | 100, 80, 60, 50, 45, 20, 10, 5 % | 123/1123, 456/1456 (+789/1789 for 45 & 60 %) | 18 |
 
 ## Reproduce
@@ -83,6 +83,7 @@ Test MAE decreases monotonically with intrinsic dimension on both targets (best 
 | 50 %   | 0.050 | 0.298 |
 | 45 %   | 0.047 | 0.296 |
 | 20 %   | 0.060 | 0.334 |
+| 15 %   | 0.064 |   –   |
 | 10 %   | 0.071 | 0.373 |
 | 5 %    |   –   | 0.428 |
 

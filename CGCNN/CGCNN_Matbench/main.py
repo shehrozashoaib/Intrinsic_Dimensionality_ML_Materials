@@ -7,7 +7,6 @@ import warnings
 import random
 from pathlib import Path
 from random import sample
-from matbench.bench import MatbenchBenchmark
 
 import numpy as np
 import torch
@@ -78,8 +77,8 @@ test_group.add_argument('--test-ratio', default=0.1, type=float, metavar='N',
 test_group.add_argument('--test-size', default=None, type=int, metavar='N',
                         help='number of test data to be loaded (default 1000)')
 
-parser.add_argument('--optim', default='SGD', type=str, metavar='SGD',
-                    help='choose an optimizer, SGD or Adam, (default: SGD)')
+parser.add_argument('--optim', default='Adam', type=str, metavar='Adam',
+                    help='choose an optimizer, SGD or Adam, (default: Adam)')
 parser.add_argument('--atom-fea-len', default=64, type=int, metavar='N',
                     help='number of hidden atom features in conv layers')
 parser.add_argument('--h-fea-len', default=128, type=int, metavar='N',
@@ -301,7 +300,8 @@ def main():
         run_cached_training()
         return
 
-    # load data
+    # load data (matbench only needed for the non-cached benchmark path)
+    from matbench.bench import MatbenchBenchmark
     mb = MatbenchBenchmark(autoload=False)
 
     for task in mb.tasks:

@@ -86,7 +86,10 @@ dims_in_set() { # $1 = double|triple|all : echo dims (in DIM_ORDER) with 2 / >=3
 
 # Decide which runs to execute
 SELECTED=()
-if [[ "${CGCNN_SMOKE:-0}" == "1" ]]; then
+if [[ -n "${CGCNN_RUNS:-}" ]]; then
+  # explicit space-separated "frac:pct:model_seed:split_seed" entries (extends the sweep)
+  read -ra SELECTED <<< "$CGCNN_RUNS"
+elif [[ "${CGCNN_SMOKE:-0}" == "1" ]]; then
   SELECTED=("1.0:100:123:1123")
   RESULT_ROOT="${RESULT_ROOT}/_smoke"; mkdir -p "$RESULT_ROOT"
 elif [[ -n "${CGCNN_DIM_GROUP:-}" ]]; then

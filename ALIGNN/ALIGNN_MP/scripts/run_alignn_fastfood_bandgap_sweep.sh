@@ -303,8 +303,22 @@ run_schedule() {
   done
 }
 
-run_schedule 123 "MP_json" 123 "${FULL_DIMS[@]}"
-run_schedule 456 "MP_json_seed456" 456 "${FULL_DIMS[@]}"
-run_schedule 789 "MP_json_seed789" 789 "${FOCUSED_DIMS[@]}"
-
-echo "$PRINT_PREFIX ALL DONE. Summary: ${SUMMARY_CSV}"
+# Selection: BANDGAP_RUNS env var runs exactly the listed entries, one job = one (or few)
+# run(s). Each entry is "root_dir:seed:id_dim:id_dim_percent" with data_seed=model_seed=
+# split_seed=seed (matches run_schedule). Datasets are expected to already exist (pre-create
+# them once to avoid concurrent ensure_dataset races); ensure_dataset still validates/creates
+# as a fallback. With no BANDGAP_RUNS, runs the full hardcoded schedule.
+if [[ -n "${BANDGAP_RUNS:-}" ]]; then
+  echo "$PRINT_PREFIX explicit selection: ${BANDGAP_RUNS}"
+  for item in $BANDGAP_RUNS; do
+    IFS=':' read -r root_dir seed id_dim id_dim_percent <<< "$item"
+    ensure_dataset "$seed" "$root_dir" || exit 1
+    run_one "$root_dir" "$seed" "$seed" "$seed" "$id_dim" "$id_dim_percent"
+  done
+  echo "$PRINT_PREFIX SELECTED RUNS DONE. Summary: ${SUMMARY_CSV}"
+else
+  run_schedule 123 "MP_json" 123 "${FULL_DIMS[@]}"
+  run_schedule 456 "MP_json_seed456" 456 "${FULL_DIMS[@]}"
+  run_schedule 789 "MP_json_seed789" 789 "${FOCUSED_DIMS[@]}"
+  echo "$PRINT_PREFIX ALL DONE. Summary: ${SUMMARY_CSV}"
+fi
