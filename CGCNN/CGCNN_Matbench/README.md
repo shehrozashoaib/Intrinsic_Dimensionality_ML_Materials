@@ -2,6 +2,14 @@
 
 This directory contains the CGCNN part of the intrinsic-dimensionality experiments for materials-property prediction. The code trains a Crystal Graph Convolutional Neural Network (CGCNN) on three Matbench regression tasks while constraining optimization to a low-dimensional random subspace with a Fastfood projection.
 
+> **Corrected re-test (current results).** The intrinsic dimension is now swept as a
+> **percentage of the model's parameters** — `--id-dim` is passed as a **fraction**
+> (`1.0`, `0.8`, …, `0.01`), since CGCNN's `subspace.py` treats an *integer* `id_dim` as an
+> *absolute* parameter count. The earlier scripts passed bare integers (100…1), which were
+> 0.001–0.1 % of the ~88k-param model and therefore collapsed to ~identical error. The
+> optimizer is **Adam** (SGD freezes at low intrinsic dimension). Curated per-task results
+> with logs, predictions and summaries live under `results/matbench_<task>_fastfood_<epochs>epochs/`.
+
 ## Goal
 
 The goal is to study how many trainable intrinsic parameters are needed for a materials graph neural network to recover useful performance. The base model is a CGCNN with about 87.6k parameters. During intrinsic-dimension runs, the full parameter vector is frozen at initialization and training only updates a low-dimensional vector `z`; the model weights used in each forward pass are reconstructed as:
@@ -28,17 +36,27 @@ CGCNN_Matbench/
   root_dir/
     atom_init.json                       # atom feature vectors needed by CIFData
   scripts/
-    run_cgcnn_fastfood_phonons_dataseed123_modelseeds.sh
-    run_cgcnn_fastfood_dielectric_dataseed123_modelseeds.sh
-    run_cgcnn_fastfood_log_kvrh_dataseed123_modelseeds.sh
+    run_cgcnn_matbench_fastfood_sweep.sh    # CURRENT runner: fractions + Adam, all 12 dims x 3 seeds
+    submit_matbench_task.slurm              # one A100 job = one full task sweep
+    build_matbench_all.slurm                # build tensor caches for 3 tasks x 3 seeds
+    build_matbench_tensors.slurm            # build a single (tasks, seed) cache
+    confirm_dielectric_optim.slurm          # 100% vs 1% sanity check
+    run_cgcnn_fastfood_phonons_dataseed123_modelseeds.sh    # (superseded: bare-int dims)
+    run_cgcnn_fastfood_dielectric_dataseed123_modelseeds.sh # (superseded)
+    run_cgcnn_fastfood_log_kvrh_dataseed123_modelseeds.sh   # (superseded)
   results/
+    matbench_dielectric_fastfood_80epochs/  # README + summary_mae_runtime.csv + logs/ + predictions/
+    matbench_phonons_fastfood_80epochs/
+    matbench_log_kvrh_fastfood_120epochs/
     summary_csvs/
       matbench_phonons_fastfood_summary.csv
       matbench_dielectric_fastfood_summary.csv
       matbench_log_kvrh_fastfood_summary.csv
 ```
 
-Large cached tensors, raw Matbench pickle files, model checkpoints, logs, and per-run prediction CSVs are intentionally not tracked.
+Curated results (per-run training logs, prediction CSVs, and summary CSVs) are tracked under
+`results/matbench_<task>_fastfood_<epochs>epochs/`. Large cached tensors, raw Matbench pickle
+files, model checkpoints, and the raw `results_matbench_*_fastfood/` run directories are not tracked.
 
 ## Datasets
 
@@ -80,12 +98,13 @@ In a Fastfood run, trainable parameters equal the requested intrinsic dimension 
 
 ## Intrinsic-Dimension Sweep
 
-The Fastfood sweeps use:
+The Fastfood sweeps use (intrinsic dim as a **fraction** of the model's params):
 
 ```text
-id_dim = 100, 80, 70, 65, 50, 45, 20, 10, 8, 5, 2, 1
-model_seeds = 123, 456, 789
-data_seed = 123
+id_dim (fraction) = 1.0, 0.8, 0.7, 0.65, 0.5, 0.45, 0.2, 0.1, 0.08, 0.05, 0.02, 0.01
+                    (i.e. 100%, 80%, ..., 1%)
+optimizer  = Adam
+seeds      = matched data_seed = model_seed in {123, 456, 789}  (3 distinct 80/10/10 splits)
 ```
 
 Epochs:
@@ -183,23 +202,29 @@ python main.py \
 
 `--data-seed` selects which cached tensor split to load. `--random-seed` controls model initialization and the random subspace projection. Keeping these separate allows the same dataset split to be evaluated under several model/subspace seeds.
 
-### 4. Run Full Sweeps
+### 4. Run Full Sweeps (current)
 
-From the project root:
+Build the caches for all 3 tasks × 3 seeds, then submit one A100 job per task (each runs all
+12 dims × 3 seeds with fractions + Adam):
 
 ```bash
-bash scripts/run_cgcnn_fastfood_phonons_dataseed123_modelseeds.sh
-bash scripts/run_cgcnn_fastfood_dielectric_dataseed123_modelseeds.sh
-bash scripts/run_cgcnn_fastfood_log_kvrh_dataseed123_modelseeds.sh
+sbatch scripts/build_matbench_all.slurm                                   # caches: 3 tasks x 3 seeds
+for t in dielectric phonons log_kvrh; do
+  sbatch --export=ALL,CGCNN_MB_TASK="$t" scripts/submit_matbench_task.slurm
+done
 ```
 
-Each script:
+`scripts/run_cgcnn_matbench_fastfood_sweep.sh` (invoked by the job) for each run:
 
 1. Loads cached tensors from `cached_matbench/tensors`.
-2. Runs all intrinsic dimensions for model seeds `123`, `456`, and `789`.
-3. Writes a per-task summary CSV under `results_<task>_fastfood/`.
-4. Renames the test prediction CSV to include task, wrapper, dimension, model size config, data seed, and model seed.
-5. Deletes `.pth.tar` checkpoint files after each experiment.
+2. Runs all intrinsic-dim **fractions** for matched `data_seed = model_seed ∈ {123, 456, 789}`, with **Adam**.
+3. Skips a run whose `metadata.json` already has `status=success`.
+4. Appends one row to a flock-guarded per-task summary CSV under `results_matbench_<task>_fastfood/`.
+5. Renames the test prediction CSV and deletes `.pth.tar` checkpoints after each run.
+
+The three superseded `run_cgcnn_fastfood_<task>_dataseed123_modelseeds.sh` scripts are kept for
+reference but pass bare-integer dims (absolute counts) and predate the Adam default — do not use
+them for the percentage sweep.
 
 ## Notes
 
