@@ -1,0 +1,1844 @@
+world_size 1
+root_dir partitions/bandgap_p01_10
+[Seed] random_seed=123, split_seed=123
+len dataset 1549
+train_stress False
+starting from this file
+[Subspace][Fastfood] D=85,953, d=8,595, padded n=131,072.
+  Fastfood diagonals + permutation: ~2.50 MB (vs. dense P would need ~2.75 GB).
+  Compute per forward: O(n log n) ~ 2,228,224 ops.
+[Subspace] D=85,953, d=8,595
+================================================================
+[MEM REPORT] Wrapped model (runtime footprint)
+Trainable params : 8,595
+All params       : 94,548  (369.33 KB)
+Buffers          : 610,481  (2.83 MB)
+Optimizer(AdamW) ~ 67.15 KB
+----------------------------------------------------------------
+Estimated total (params + buffers + opt): 3.26 MB
+----------------------------------------------------------------
+CUDA live: allocated=3.20 MB, reserved=26.00 MB, device=cuda:0
+================================================================
+Not using LMDB dataset, memory footprint maybe high.
+WARNING: not using LMDB might result errors.
+MAX val: 7.2957
+MIN val: 0.0
+MAD: 1.262527293603695
+Baseline MAE: 1.3355031476997576
+data range 7.2957 0.0
+Converting to graphs!
+df       target                                              atoms         jid
+0     1.0044  {'lattice_mat': [[2.786196, 7.182606, 0.0], [-...  mp-1380678
+1     0.0000  {'lattice_mat': [[-0.0, 3.5194585800000002, 3....   mp-866150
+2     1.6646  {'lattice_mat': [[7.9630439, -0.0, -0.0], [0.0...    mp-18408
+3     0.5741  {'lattice_mat': [[3.56061377, -2e-08, 0.0], [-...  mp-1025629
+4     0.0000  {'lattice_mat': [[3.700994, 5.25523, 0.0], [-3...   mp-694897
+...      ...                                                ...         ...
+1234  0.2052  {'lattice_mat': [[1.961822, 7.878195, 0.0], [-...  mp-1104362
+1235  0.0000  {'lattice_mat': [[-2.5213769999999993, 3.47310...   mp-680551
+1236  2.6697  {'lattice_mat': [[10.2437446, 0.0, 0.0], [0.0,...    mp-17264
+1237  0.0000  {'lattice_mat': [[4.172033, 0.0, 0.0], [0.0, 4...  mp-1066707
+1238  1.3048  {'lattice_mat': [[6.44484712, -0.26824744, -0....  mp-2241187
+
+[1239 rows x 3 columns]
+warning: could not load CGCNN features for 103
+Setting it to max atomic number available here, 103
+warning: could not load CGCNN features for 101
+Setting it to max atomic number available here, 103
+warning: could not load CGCNN features for 102
+Setting it to max atomic number available here, 103
+building line graphs
+data range 5.8413 0.0
+Converting to graphs!
+df      target                                              atoms         jid
+0    0.2126  {'lattice_mat': [[7.289833, 0.0, 0.0], [0.0, 5...   mp-772819
+1    0.0000  {'lattice_mat': [[5.79899737, -3.0498785, -0.0...  mp-1184696
+2    1.8586  {'lattice_mat': [[5.485109, 0.0, 0.0], [0.0, 6...  mp-2230747
+3    0.0000  {'lattice_mat': [[0.0, 8.827057, 8.827057], [8...   mp-567157
+4    4.0220  {'lattice_mat': [[10.735374, 0.0, 0.0], [0.0, ...    mp-17288
+..      ...                                                ...         ...
+149  0.0000  {'lattice_mat': [[5.345782, -0.073291, -0.0735...  mp-2230979
+150  2.9898  {'lattice_mat': [[18.11916655, 0.013642, 0.033...  mp-2716405
+151  2.5933  {'lattice_mat': [[8.55951755, 0.0, 0.0], [0.0,...  mp-1035481
+152  0.0000  {'lattice_mat': [[4.085235, 0.0, 0.0], [0.0, 4...  mp-1101077
+153  0.0000  {'lattice_mat': [[-5.197746, 5.197746, 1.50507...  mp-1077144
+
+[154 rows x 3 columns]
+building line graphs
+data range 6.0068 0.0
+Converting to graphs!
+df      target                                              atoms         jid
+0    0.0000  {'lattice_mat': [[2.464585, -4.268786, 0.0], [...     mp-8315
+1    0.1244  {'lattice_mat': [[3.546631, 0.0, 0.0], [0.0, 4...  mp-1397062
+2    3.4977  {'lattice_mat': [[-0.00479574, 0.0, 6.66898545...  mp-1191389
+3    1.8159  {'lattice_mat': [[3.909411, 0.0, -3.94454], [0...  mp-1173082
+4    0.4282  {'lattice_mat': [[5.536919, -0.754738999999999...  mp-2217188
+..      ...                                                ...         ...
+149  0.0000  {'lattice_mat': [[7.322315, 0.0, 0.0], [0.0, 5...  mp-1179265
+150  1.6169  {'lattice_mat': [[8.628154, -0.258359, -0.1684...  mp-1176939
+151  0.0000  {'lattice_mat': [[2.205314, -11.010019, 0.0], ...  mp-1078819
+152  6.0068  {'lattice_mat': [[3.569289, 8.286944, 0.0], [-...  mp-1199215
+153  0.0103  {'lattice_mat': [[4.520045, -0.205644, 0.0], [...  mp-1639132
+
+[154 rows x 3 columns]
+building line graphs
+n_train: 1239
+n_val  : 154
+n_test : 154
+rank 0
+world_size 1
+config: {'version': 'c97c74990cbe42a71b8f3d64093a9c377651c9c6', 'dataset': 'user_data', 'target': 'band_gap', 'atom_features': 'cgcnn', 'neighbor_strategy': 'k-nearest', 'id_tag': 'jid', 'dtype': 'float32', 'random_seed': 123, 'classification_threshold': None, 'n_val': None, 'n_test': None, 'n_train': None, 'train_ratio': 0.8, 'val_ratio': 0.1, 'test_ratio': 0.1, 'target_multiplication_factor': None, 'epochs': 350, 'batch_size': 64, 'gpu_memory_fraction': None, 'use_amp': False, 'ddp_find_unused_parameters': False, 'deterministic': False, 'weight_decay': 0.0, 'learning_rate': 0.001, 'filename': 'sample', 'warmup_steps': 2000, 'criterion': 'mse', 'optimizer': 'adamw', 'scheduler': 'onecycle', 'pin_memory': True, 'save_dataloader': False, 'write_checkpoint': True, 'write_predictions': True, 'store_outputs': True, 'progress': True, 'log_tensorboard': False, 'standard_scalar_and_pca': False, 'use_canonize': True, 'compute_line_graph': True, 'num_workers': 2, 'cutoff': 8.0, 'cutoff_extra': 3.0, 'three_body_cutoff': 3.5, 'max_neighbors': 12, 'keep_data_order': False, 'normalize_graph_level_loss': False, 'distributed': True, 'data_parallel': False, 'n_early_stopping': None, 'output_dir': '../results_alignn_bandgap_partitions_fastfood/bandgap_p01_10/alignn_bandgap_fastfood_bandgap_p01_10_dim10_seed123_epochs350', 'use_lmdb': False, 'read_existing': False, 'model': {'name': 'alignn_atomwise', 'alignn_layers': 1, 'gcn_layers': 1, 'atom_input_features': 92, 'edge_input_features': 80, 'triplet_input_features': 40, 'embedding_features': 64, 'hidden_features': 64, 'output_features': 1, 'grad_multiplier': -1, 'calculate_gradient': False, 'atomwise_output_features': 0, 'graphwise_weight': 1.0, 'gradwise_weight': 0.0, 'stresswise_weight': 0.0, 'atomwise_weight': 0.0, 'link': 'identity', 'zero_inflated': False, 'classification': False, 'force_mult_natoms': False, 'energy_mult_natoms': True, 'include_pos_deriv': False, 'use_cutoff_function': False, 'inner_cutoff': 3.0, 'stress_multiplier': 1.0, 'add_reverse_forces': True, 'lg_on_fly': True, 'batch_stress': True, 'multiply_cutoff': False, 'use_penalty': True, 'extra_features': 0, 'exponent': 5, 'penalty_factor': 0.1, 'penalty_threshold': 1.0, 'additional_output_features': 0, 'additional_output_weight': 0.0}}
+{'atom_features': 'cgcnn',
+ 'batch_size': 64,
+ 'classification_threshold': None,
+ 'compute_line_graph': True,
+ 'criterion': 'mse',
+ 'cutoff': 8.0,
+ 'cutoff_extra': 3.0,
+ 'data_parallel': False,
+ 'dataset': 'user_data',
+ 'ddp_find_unused_parameters': False,
+ 'deterministic': False,
+ 'distributed': True,
+ 'dtype': 'float32',
+ 'epochs': 350,
+ 'filename': 'sample',
+ 'gpu_memory_fraction': None,
+ 'id_tag': 'jid',
+ 'keep_data_order': False,
+ 'learning_rate': 0.001,
+ 'log_tensorboard': False,
+ 'max_neighbors': 12,
+ 'model': {'add_reverse_forces': True,
+           'additional_output_features': 0,
+           'additional_output_weight': 0.0,
+           'alignn_layers': 1,
+           'atom_input_features': 92,
+           'atomwise_output_features': 0,
+           'atomwise_weight': 0.0,
+           'batch_stress': True,
+           'calculate_gradient': False,
+           'classification': False,
+           'edge_input_features': 80,
+           'embedding_features': 64,
+           'energy_mult_natoms': True,
+           'exponent': 5,
+           'extra_features': 0,
+           'force_mult_natoms': False,
+           'gcn_layers': 1,
+           'grad_multiplier': -1,
+           'gradwise_weight': 0.0,
+           'graphwise_weight': 1.0,
+           'hidden_features': 64,
+           'include_pos_deriv': False,
+           'inner_cutoff': 3.0,
+           'lg_on_fly': True,
+           'link': 'identity',
+           'multiply_cutoff': False,
+           'name': 'alignn_atomwise',
+           'output_features': 1,
+           'penalty_factor': 0.1,
+           'penalty_threshold': 1.0,
+           'stress_multiplier': 1.0,
+           'stresswise_weight': 0.0,
+           'triplet_input_features': 40,
+           'use_cutoff_function': False,
+           'use_penalty': True,
+           'zero_inflated': False},
+ 'n_early_stopping': None,
+ 'n_test': None,
+ 'n_train': None,
+ 'n_val': None,
+ 'neighbor_strategy': 'k-nearest',
+ 'normalize_graph_level_loss': False,
+ 'num_workers': 2,
+ 'optimizer': 'adamw',
+ 'output_dir': '../results_alignn_bandgap_partitions_fastfood/bandgap_p01_10/alignn_bandgap_fastfood_bandgap_p01_10_dim10_seed123_epochs350',
+ 'pin_memory': True,
+ 'progress': True,
+ 'random_seed': 123,
+ 'read_existing': False,
+ 'save_dataloader': False,
+ 'scheduler': 'onecycle',
+ 'standard_scalar_and_pca': False,
+ 'store_outputs': True,
+ 'target': 'band_gap',
+ 'target_multiplication_factor': None,
+ 'test_ratio': 0.1,
+ 'three_body_cutoff': 3.5,
+ 'train_ratio': 0.8,
+ 'use_amp': False,
+ 'use_canonize': True,
+ 'use_lmdb': False,
+ 'val_ratio': 0.1,
+ 'version': 'c97c74990cbe42a71b8f3d64093a9c377651c9c6',
+ 'warmup_steps': 2000,
+ 'weight_decay': 0.0,
+ 'write_checkpoint': True,
+ 'write_predictions': True}
+[Seed] deterministic_mode=False
+
+    _    _     ___ ____ _   _ _   _
+   / \  | |   |_ _/ ___| \ | | \ | |
+  / _ \ | |    | | |  _|  \| |  \| |
+ / ___ \| |___ | | |_| | |\  | |\  |
+/_/   \_\_____|___\____|_| \_|_| \_|
+
+Model parameters 94548
+CUDA available True
+CUDA device count 1
+   GPU: NVIDIA A100-SXM4-80GB. Max memory: 79.252 GB. Platform = Linux.
+   Pytorch: 2.11.0+cu128. CUDA = 8.0. CUDA Toolkit = 12.8.
+
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             0        19.6071    19.6071    0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             0        1.9746     1.9746     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             1        18.3663    18.3663    0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             1        1.9392     1.9392     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             2        17.5655    17.5655    0.0000     0.0000     0.0000     0.0000     1.47      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             2        1.9118     1.9118     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             3        17.2599    17.2599    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             3        1.8736     1.8736     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             4        17.0513    17.0513    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             4        1.8374     1.8374     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             5        16.7577    16.7577    0.0000     0.0000     0.0000     0.0000     1.47      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             5        1.8045     1.8045     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             6        16.5470    16.5470    0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             6        1.7931     1.7931     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             7        16.4395    16.4395    0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             7        1.7618     1.7618     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             8        16.0714    16.0714    0.0000     0.0000     0.0000     0.0000     1.74      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             8        1.7539     1.7539     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             9        16.1125    16.1125    0.0000     0.0000     0.0000     0.0000     1.69      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             9        1.7100     1.7100     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             10       16.0102    16.0102    0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             10       1.6925     1.6925     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             11       15.4873    15.4873    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             11       1.6676     1.6676     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             12       15.3664    15.3664    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             12       1.6682     1.6682     0.0000     0.0000     0.0000     0.0000     0.37       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             13       15.2700    15.2700    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             13       1.6506     1.6506     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             14       15.2493    15.2493    0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             14       1.6251     1.6251     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             15       15.1441    15.1441    0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             15       1.5988     1.5988     0.0000     0.0000     0.0000     0.0000     0.45       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             16       14.8943    14.8943    0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             16       1.6753     1.6753     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             17       15.0981    15.0981    0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             17       1.5840     1.5840     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             18       14.6254    14.6254    0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             18       1.5848     1.5848     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             19       14.7401    14.7401    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             19       1.6430     1.6430     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             20       14.5764    14.5764    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             20       1.5887     1.5887     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             21       14.5935    14.5935    0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             21       1.5661     1.5661     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             22       14.4223    14.4223    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             22       1.5503     1.5503     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             23       14.2915    14.2915    0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             23       1.5257     1.5257     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             24       14.2764    14.2764    0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             24       1.5199     1.5199     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             25       14.2054    14.2054    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             25       1.5080     1.5080     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             26       14.1488    14.1488    0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             26       1.5355     1.5355     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             27       13.9702    13.9702    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             27       1.5416     1.5416     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             28       13.9093    13.9093    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             28       1.4668     1.4668     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             29       13.8550    13.8550    0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             29       1.4900     1.4900     0.0000     0.0000     0.0000     0.0000     0.18       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             30       13.7905    13.7905    0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             30       1.4837     1.4837     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             31       13.5962    13.5962    0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             31       1.4852     1.4852     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             32       13.7435    13.7435    0.0000     0.0000     0.0000     0.0000     1.97      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             32       1.4617     1.4617     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             33       13.5272    13.5272    0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             33       1.4420     1.4420     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             34       13.5498    13.5498    0.0000     0.0000     0.0000     0.0000     1.47      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             34       1.4595     1.4595     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             35       13.4958    13.4958    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             35       1.4694     1.4694     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             36       13.6034    13.6034    0.0000     0.0000     0.0000     0.0000     1.82      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             36       1.4314     1.4314     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             37       13.5344    13.5344    0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             37       1.4760     1.4760     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             38       13.4854    13.4854    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             38       1.4673     1.4673     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             39       13.1789    13.1789    0.0000     0.0000     0.0000     0.0000     2.97      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             39       1.4113     1.4113     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             40       13.2229    13.2229    0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             40       1.4598     1.4598     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             41       13.2012    13.2012    0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             41       1.4959     1.4959     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             42       13.1204    13.1204    0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             42       1.4860     1.4860     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             43       12.8174    12.8174    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             43       1.5030     1.5030     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             44       12.7118    12.7118    0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             44       1.4513     1.4513     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             45       13.3237    13.3237    0.0000     0.0000     0.0000     0.0000     1.47      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             45       1.5154     1.5154     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             46       12.9648    12.9648    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             46       1.5022     1.5022     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             47       12.6867    12.6867    0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             47       1.4237     1.4237     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             48       12.7577    12.7577    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             48       1.4171     1.4171     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             49       12.4295    12.4295    0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             49       1.5872     1.5872     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             50       12.4048    12.4048    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             50       1.4703     1.4703     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             51       12.1735    12.1735    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             51       1.4546     1.4546     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             52       12.2174    12.2174    0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             52       1.4453     1.4453     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             53       12.1710    12.1710    0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             53       1.4132     1.4132     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             54       11.8923    11.8923    0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             54       1.5123     1.5123     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             55       11.8645    11.8645    0.0000     0.0000     0.0000     0.0000     1.85      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             55       1.4457     1.4457     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             56       12.0425    12.0425    0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             56       1.4778     1.4778     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             57       11.6857    11.6857    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             57       1.4364     1.4364     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             58       11.6498    11.6498    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             58       1.5848     1.5848     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             59       11.4738    11.4738    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             59       1.6050     1.6050     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             60       11.5425    11.5425    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             60       1.5179     1.5179     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             61       11.6448    11.6448    0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             61       1.4852     1.4852     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             62       11.3911    11.3911    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             62       1.6065     1.6065     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             63       11.2585    11.2585    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             63       1.4664     1.4664     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             64       11.6050    11.6050    0.0000     0.0000     0.0000     0.0000     1.96      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             64       1.4891     1.4891     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             65       11.0195    11.0195    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             65       1.4895     1.4895     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             66       11.1838    11.1838    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             66       1.5777     1.5777     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             67       11.5517    11.5517    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             67       1.5344     1.5344     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             68       10.9686    10.9686    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             68       1.5256     1.5256     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             69       10.8710    10.8710    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             69       1.4742     1.4742     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             70       10.8030    10.8030    0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             70       1.4482     1.4482     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             71       11.1289    11.1289    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             71       1.4926     1.4926     0.0000     0.0000     0.0000     0.0000     0.51       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             72       10.9626    10.9626    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             72       1.4530     1.4530     0.0000     0.0000     0.0000     0.0000     0.46       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             73       10.8393    10.8393    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             73       1.4768     1.4768     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             74       10.6604    10.6604    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             74       1.4951     1.4951     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             75       10.5953    10.5953    0.0000     0.0000     0.0000     0.0000     1.77      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             75       1.4831     1.4831     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             76       10.6073    10.6073    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             76       1.4660     1.4660     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             77       10.5499    10.5499    0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             77       1.5559     1.5559     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             78       10.3356    10.3356    0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             78       1.5738     1.5738     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             79       10.5673    10.5673    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             79       1.5314     1.5314     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             80       10.4422    10.4422    0.0000     0.0000     0.0000     0.0000     1.89      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             80       1.4271     1.4271     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             81       10.2957    10.2957    0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             81       1.4407     1.4407     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             82       10.5063    10.5063    0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             82       1.4877     1.4877     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             83       10.2305    10.2305    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             83       1.4754     1.4754     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             84       10.4907    10.4907    0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             84       1.4673     1.4673     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             85       10.2608    10.2608    0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             85       1.4837     1.4837     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             86       10.1941    10.1941    0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             86       1.6558     1.6558     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             87       10.3379    10.3379    0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             87       1.4712     1.4712     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             88       10.0915    10.0915    0.0000     0.0000     0.0000     0.0000     1.82      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             88       1.5050     1.5050     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             89       10.1725    10.1725    0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             89       1.5942     1.5942     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             90       10.0553    10.0553    0.0000     0.0000     0.0000     0.0000     1.50      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             90       1.5651     1.5651     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             91       9.8367     9.8367     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             91       1.5741     1.5741     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             92       9.9818     9.9818     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             92       1.4808     1.4808     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             93       9.8336     9.8336     0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             93       1.4322     1.4322     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             94       9.9742     9.9742     0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             94       1.4549     1.4549     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             95       9.6989     9.6989     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             95       1.5410     1.5410     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             96       9.5469     9.5469     0.0000     0.0000     0.0000     0.0000     2.06      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             96       1.4706     1.4706     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             97       9.6990     9.6990     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             97       1.4339     1.4339     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             98       9.7099     9.7099     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             98       1.5410     1.5410     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             99       9.7237     9.7237     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             99       1.4293     1.4293     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             100      9.4494     9.4494     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             100      1.4461     1.4461     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             101      9.6291     9.6291     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             101      1.4725     1.4725     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             102      9.6558     9.6558     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             102      1.4154     1.4154     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             103      9.8090     9.8090     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             103      1.4785     1.4785     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             104      9.7449     9.7449     0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             104      1.4468     1.4468     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             105      9.6684     9.6684     0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             105      1.4264     1.4264     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             106      9.4166     9.4166     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             106      1.4805     1.4805     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             107      9.3255     9.3255     0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             107      1.4528     1.4528     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             108      9.2234     9.2234     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             108      1.4674     1.4674     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             109      9.4426     9.4426     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             109      1.4579     1.4579     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             110      9.2582     9.2582     0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             110      1.4584     1.4584     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             111      9.2970     9.2970     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             111      1.4154     1.4154     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             112      9.1254     9.1254     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             112      1.4324     1.4324     0.0000     0.0000     0.0000     0.0000     0.54       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             113      9.3335     9.3335     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             113      1.4306     1.4306     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             114      9.2112     9.2112     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             114      1.4374     1.4374     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             115      9.2394     9.2394     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             115      1.4593     1.4593     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             116      9.2061     9.2061     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             116      1.4701     1.4701     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             117      9.1092     9.1092     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             117      1.4135     1.4135     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             118      8.9198     8.9198     0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             118      1.4629     1.4629     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             119      8.9003     8.9003     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             119      1.3833     1.3833     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             120      8.9371     8.9371     0.0000     0.0000     0.0000     0.0000     1.50      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             120      1.4314     1.4314     0.0000     0.0000     0.0000     0.0000     0.44       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             121      8.9454     8.9454     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             121      1.4656     1.4656     0.0000     0.0000     0.0000     0.0000     0.45       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             122      9.0584     9.0584     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             122      1.3945     1.3945     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             123      8.8723     8.8723     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             123      1.3941     1.3941     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             124      8.9531     8.9531     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             124      1.4365     1.4365     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             125      8.7737     8.7737     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             125      1.4314     1.4314     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             126      8.8452     8.8452     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             126      1.4281     1.4281     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             127      8.9012     8.9012     0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             127      1.3975     1.3975     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             128      8.6117     8.6117     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             128      1.4069     1.4069     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             129      8.5399     8.5399     0.0000     0.0000     0.0000     0.0000     2.11      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             129      1.4626     1.4626     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             130      8.6083     8.6083     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             130      1.4210     1.4210     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             131      8.5345     8.5345     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             131      1.4285     1.4285     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             132      8.4302     8.4302     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             132      1.4289     1.4289     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             133      8.5211     8.5211     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             133      1.4477     1.4477     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             134      8.6510     8.6510     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             134      1.4153     1.4153     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             135      8.5239     8.5239     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             135      1.4179     1.4179     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             136      8.3495     8.3495     0.0000     0.0000     0.0000     0.0000     1.50      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             136      1.4234     1.4234     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             137      8.2731     8.2731     0.0000     0.0000     0.0000     0.0000     1.87      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             137      1.4297     1.4297     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             138      8.2297     8.2297     0.0000     0.0000     0.0000     0.0000     1.82      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             138      1.4564     1.4564     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             139      8.3305     8.3305     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             139      1.4957     1.4957     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             140      8.1928     8.1928     0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             140      1.5438     1.5438     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             141      8.3679     8.3679     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             141      1.5008     1.5008     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             142      8.2441     8.2441     0.0000     0.0000     0.0000     0.0000     1.79      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             142      1.4583     1.4583     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             143      8.1016     8.1016     0.0000     0.0000     0.0000     0.0000     1.50      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             143      1.3902     1.3902     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             144      8.2336     8.2336     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             144      1.4706     1.4706     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             145      8.0953     8.0953     0.0000     0.0000     0.0000     0.0000     1.90      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             145      1.4093     1.4093     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             146      8.1998     8.1998     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             146      1.4276     1.4276     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             147      8.2525     8.2525     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             147      1.4391     1.4391     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             148      8.0616     8.0616     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             148      1.4659     1.4659     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             149      8.2388     8.2388     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             149      1.4404     1.4404     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             150      8.0668     8.0668     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             150      1.4476     1.4476     0.0000     0.0000     0.0000     0.0000     0.40       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             151      8.1222     8.1222     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             151      1.4783     1.4783     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             152      8.0201     8.0201     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             152      1.4667     1.4667     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             153      7.9492     7.9492     0.0000     0.0000     0.0000     0.0000     1.85      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             153      1.4858     1.4858     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             154      7.9673     7.9673     0.0000     0.0000     0.0000     0.0000     1.82      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             154      1.4495     1.4495     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             155      7.8637     7.8637     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             155      1.4652     1.4652     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             156      7.9939     7.9939     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             156      1.4505     1.4505     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             157      7.9349     7.9349     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             157      1.4465     1.4465     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             158      7.9194     7.9194     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             158      1.5181     1.5181     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             159      7.9263     7.9263     0.0000     0.0000     0.0000     0.0000     1.74      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             159      1.5225     1.5225     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             160      8.3733     8.3733     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             160      1.4727     1.4727     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             161      7.6695     7.6695     0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             161      1.4907     1.4907     0.0000     0.0000     0.0000     0.0000     0.54       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             162      7.7098     7.7098     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             162      1.4959     1.4959     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             163      7.9603     7.9603     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             163      1.4268     1.4268     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             164      7.5878     7.5878     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             164      1.4597     1.4597     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             165      7.7298     7.7298     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             165      1.5096     1.5096     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             166      7.5673     7.5673     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             166      1.4630     1.4630     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             167      7.7456     7.7456     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             167      1.4975     1.4975     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             168      7.4531     7.4531     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             168      1.5178     1.5178     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             169      7.5026     7.5026     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             169      1.5081     1.5081     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             170      7.9003     7.9003     0.0000     0.0000     0.0000     0.0000     1.81      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             170      1.5701     1.5701     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             171      8.0196     8.0196     0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             171      1.4607     1.4607     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             172      7.6730     7.6730     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             172      1.5134     1.5134     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             173      7.6930     7.6930     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             173      1.4805     1.4805     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             174      7.5451     7.5451     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             174      1.5214     1.5214     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             175      7.5499     7.5499     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             175      1.5476     1.5476     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             176      7.7787     7.7787     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             176      1.4673     1.4673     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             177      7.5161     7.5161     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             177      1.4838     1.4838     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             178      7.6140     7.6140     0.0000     0.0000     0.0000     0.0000     1.92      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             178      1.5335     1.5335     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             179      7.5695     7.5695     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             179      1.4573     1.4573     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             180      7.2389     7.2389     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             180      1.4827     1.4827     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             181      7.2777     7.2777     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             181      1.5101     1.5101     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             182      7.2952     7.2952     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             182      1.4900     1.4900     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             183      7.2942     7.2942     0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             183      1.5948     1.5948     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             184      7.0779     7.0779     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             184      1.5100     1.5100     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             185      7.2178     7.2178     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             185      1.4850     1.4850     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             186      7.3528     7.3528     0.0000     0.0000     0.0000     0.0000     1.86      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             186      1.4628     1.4628     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             187      7.0350     7.0350     0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             187      1.5189     1.5189     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             188      7.1591     7.1591     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             188      1.5446     1.5446     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             189      7.0187     7.0187     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             189      1.5026     1.5026     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             190      7.3501     7.3501     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             190      1.6044     1.6044     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             191      7.2251     7.2251     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             191      1.5827     1.5827     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             192      7.4457     7.4457     0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             192      1.6558     1.6558     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             193      7.2449     7.2449     0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             193      1.5040     1.5040     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             194      7.0303     7.0303     0.0000     0.0000     0.0000     0.0000     2.15      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             194      1.4186     1.4186     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             195      6.8300     6.8300     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             195      1.5562     1.5562     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             196      6.8180     6.8180     0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             196      1.4880     1.4880     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             197      7.0979     7.0979     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             197      1.5264     1.5264     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             198      6.9406     6.9406     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             198      1.4817     1.4817     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             199      6.9881     6.9881     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             199      1.5203     1.5203     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             200      6.8710     6.8710     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             200      1.5416     1.5416     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             201      6.8790     6.8790     0.0000     0.0000     0.0000     0.0000     2.91      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             201      1.4534     1.4534     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             202      6.9073     6.9073     0.0000     0.0000     0.0000     0.0000     1.81      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             202      1.5636     1.5636     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             203      7.2915     7.2915     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             203      1.5650     1.5650     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             204      6.8777     6.8777     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             204      1.5422     1.5422     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             205      6.6576     6.6576     0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             205      1.5818     1.5818     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             206      6.7729     6.7729     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             206      1.5230     1.5230     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             207      6.6612     6.6612     0.0000     0.0000     0.0000     0.0000     1.67      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             207      1.5501     1.5501     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             208      6.6874     6.6874     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             208      1.4976     1.4976     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             209      6.8186     6.8186     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             209      1.4719     1.4719     0.0000     0.0000     0.0000     0.0000     0.35       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             210      6.7314     6.7314     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             210      1.5194     1.5194     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             211      6.9524     6.9524     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             211      1.5841     1.5841     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             212      6.9300     6.9300     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             212      1.4767     1.4767     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             213      7.3236     7.3236     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             213      1.4549     1.4549     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             214      7.3235     7.3235     0.0000     0.0000     0.0000     0.0000     1.62      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             214      1.5577     1.5577     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             215      6.5903     6.5903     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             215      1.5382     1.5382     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             216      6.5590     6.5590     0.0000     0.0000     0.0000     0.0000     1.81      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             216      1.5291     1.5291     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             217      6.7068     6.7068     0.0000     0.0000     0.0000     0.0000     1.88      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             217      1.5062     1.5062     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             218      6.6151     6.6151     0.0000     0.0000     0.0000     0.0000     1.85      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             218      1.5144     1.5144     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             219      6.6755     6.6755     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             219      1.5012     1.5012     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             220      6.5547     6.5547     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             220      1.4655     1.4655     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             221      6.8858     6.8858     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             221      1.4673     1.4673     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             222      6.5129     6.5129     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             222      1.4831     1.4831     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             223      6.4263     6.4263     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             223      1.4775     1.4775     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             224      6.7339     6.7339     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             224      1.5239     1.5239     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             225      7.0758     7.0758     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             225      1.4794     1.4794     0.0000     0.0000     0.0000     0.0000     0.45       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             226      7.7406     7.7406     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             226      1.5092     1.5092     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             227      7.0252     7.0252     0.0000     0.0000     0.0000     0.0000     1.74      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             227      1.4518     1.4518     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             228      6.5840     6.5840     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             228      1.4591     1.4591     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             229      6.3426     6.3426     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             229      1.4840     1.4840     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             230      6.3710     6.3710     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             230      1.4913     1.4913     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             231      6.6734     6.6734     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             231      1.5535     1.5535     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             232      6.4840     6.4840     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             232      1.5622     1.5622     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             233      6.3564     6.3564     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             233      1.4337     1.4337     0.0000     0.0000     0.0000     0.0000     0.46       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             234      6.2159     6.2159     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             234      1.5312     1.5312     0.0000     0.0000     0.0000     0.0000     0.45       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             235      6.3164     6.3164     0.0000     0.0000     0.0000     0.0000     1.50      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             235      1.4918     1.4918     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             236      6.5078     6.5078     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             236      1.5720     1.5720     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             237      6.5165     6.5165     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             237      1.5604     1.5604     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             238      6.2538     6.2538     0.0000     0.0000     0.0000     0.0000     1.77      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             238      1.5649     1.5649     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             239      6.2606     6.2606     0.0000     0.0000     0.0000     0.0000     1.72      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             239      1.5137     1.5137     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             240      6.2775     6.2775     0.0000     0.0000     0.0000     0.0000     1.49      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             240      1.5051     1.5051     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             241      6.3262     6.3262     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             241      1.4984     1.4984     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             242      6.3471     6.3471     0.0000     0.0000     0.0000     0.0000     1.88      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             242      1.4937     1.4937     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             243      6.2723     6.2723     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             243      1.5158     1.5158     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             244      6.4671     6.4671     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             244      1.5309     1.5309     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             245      6.2454     6.2454     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             245      1.5011     1.5011     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             246      6.0496     6.0496     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             246      1.5469     1.5469     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             247      6.2182     6.2182     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             247      1.5197     1.5197     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             248      6.4466     6.4466     0.0000     0.0000     0.0000     0.0000     1.74      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             248      1.5327     1.5327     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             249      6.6139     6.6139     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             249      1.4949     1.4949     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             250      6.2243     6.2243     0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             250      1.5241     1.5241     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             251      6.1704     6.1704     0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             251      1.5361     1.5361     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             252      5.9348     5.9348     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             252      1.5103     1.5103     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             253      6.1648     6.1648     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             253      1.5792     1.5792     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             254      6.2948     6.2948     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             254      1.5139     1.5139     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             255      6.3103     6.3103     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             255      1.4439     1.4439     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             256      5.9974     5.9974     0.0000     0.0000     0.0000     0.0000     1.48      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             256      1.4806     1.4806     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             257      5.8378     5.8378     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             257      1.5031     1.5031     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             258      5.8655     5.8655     0.0000     0.0000     0.0000     0.0000     1.89      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             258      1.5023     1.5023     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             259      5.9675     5.9675     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             259      1.4440     1.4440     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             260      5.9376     5.9376     0.0000     0.0000     0.0000     0.0000     1.81      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             260      1.4809     1.4809     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             261      6.0933     6.0933     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             261      1.4554     1.4554     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             262      5.9599     5.9599     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             262      1.4200     1.4200     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             263      5.9446     5.9446     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             263      1.4411     1.4411     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             264      5.9613     5.9613     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             264      1.5226     1.5226     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             265      5.8918     5.8918     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             265      1.4872     1.4872     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             266      5.8708     5.8708     0.0000     0.0000     0.0000     0.0000     1.89      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             266      1.4991     1.4991     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             267      5.8313     5.8313     0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             267      1.4978     1.4978     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             268      5.7497     5.7497     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             268      1.4617     1.4617     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             269      5.9481     5.9481     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             269      1.5015     1.5015     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             270      5.7240     5.7240     0.0000     0.0000     0.0000     0.0000     1.79      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             270      1.4488     1.4488     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             271      5.6649     5.6649     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             271      1.4894     1.4894     0.0000     0.0000     0.0000     0.0000     0.40       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             272      5.8153     5.8153     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             272      1.4758     1.4758     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             273      5.9662     5.9662     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             273      1.5095     1.5095     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             274      5.7615     5.7615     0.0000     0.0000     0.0000     0.0000     1.93      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             274      1.4493     1.4493     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             275      5.7580     5.7580     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             275      1.5163     1.5163     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             276      5.5329     5.5329     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             276      1.5095     1.5095     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             277      5.6779     5.6779     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             277      1.4473     1.4473     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             278      5.7054     5.7054     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             278      1.5598     1.5598     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             279      5.5094     5.5094     0.0000     0.0000     0.0000     0.0000     1.52      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             279      1.4872     1.4872     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             280      5.5806     5.5806     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             280      1.4766     1.4766     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             281      5.6732     5.6732     0.0000     0.0000     0.0000     0.0000     1.73      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             281      1.5098     1.5098     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             282      5.6654     5.6654     0.0000     0.0000     0.0000     0.0000     1.87      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             282      1.4892     1.4892     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             283      5.6769     5.6769     0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             283      1.4720     1.4720     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             284      5.6371     5.6371     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             284      1.5691     1.5691     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             285      5.8790     5.8790     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             285      1.4239     1.4239     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             286      5.5545     5.5545     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             286      1.5277     1.5277     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             287      5.7003     5.7003     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             287      1.4842     1.4842     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             288      5.4885     5.4885     0.0000     0.0000     0.0000     0.0000     1.73      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             288      1.5036     1.5036     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             289      5.5378     5.5378     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             289      1.5314     1.5314     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             290      5.8211     5.8211     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             290      1.4993     1.4993     0.0000     0.0000     0.0000     0.0000     0.54       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             291      5.6650     5.6650     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             291      1.4998     1.4998     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             292      5.3276     5.3276     0.0000     0.0000     0.0000     0.0000     1.77      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             292      1.4962     1.4962     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             293      5.6034     5.6034     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             293      1.5845     1.5845     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             294      5.4762     5.4762     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             294      1.5001     1.5001     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             295      5.3244     5.3244     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             295      1.4602     1.4602     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             296      5.3599     5.3599     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             296      1.5483     1.5483     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             297      5.2655     5.2655     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             297      1.4963     1.4963     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             298      5.3938     5.3938     0.0000     0.0000     0.0000     0.0000     1.86      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             298      1.5089     1.5089     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             299      5.5031     5.5031     0.0000     0.0000     0.0000     0.0000     1.84      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             299      1.4843     1.4843     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             300      5.6226     5.6226     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             300      1.4554     1.4554     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             301      5.3585     5.3585     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             301      1.4795     1.4795     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             302      5.4853     5.4853     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             302      1.4638     1.4638     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             303      5.7661     5.7661     0.0000     0.0000     0.0000     0.0000     1.77      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             303      1.4727     1.4727     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             304      5.7408     5.7408     0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             304      1.4987     1.4987     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             305      5.4422     5.4422     0.0000     0.0000     0.0000     0.0000     1.51      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             305      1.5990     1.5990     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             306      5.4671     5.4671     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             306      1.5168     1.5168     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             307      5.6512     5.6512     0.0000     0.0000     0.0000     0.0000     1.88      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             307      1.5098     1.5098     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             308      5.3622     5.3622     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             308      1.4724     1.4724     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             309      5.1350     5.1350     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             309      1.5276     1.5276     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             310      5.2047     5.2047     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             310      1.5444     1.5444     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             311      5.4228     5.4228     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             311      1.5249     1.5249     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             312      5.2752     5.2752     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             312      1.5266     1.5266     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             313      5.4314     5.4314     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             313      1.4529     1.4529     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             314      5.3281     5.3281     0.0000     0.0000     0.0000     0.0000     2.09      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             314      1.4901     1.4901     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             315      5.4409     5.4409     0.0000     0.0000     0.0000     0.0000     1.82      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             315      1.4520     1.4520     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             316      5.6892     5.6892     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             316      1.4806     1.4806     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             317      5.7470     5.7470     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             317      1.5223     1.5223     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             318      5.1930     5.1930     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             318      1.4428     1.4428     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             319      5.1724     5.1724     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             319      1.5288     1.5288     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             320      4.9794     4.9794     0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             320      1.5945     1.5945     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             321      4.9100     4.9100     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             321      1.5152     1.5152     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             322      5.1856     5.1856     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             322      1.4846     1.4846     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             323      5.2279     5.2279     0.0000     0.0000     0.0000     0.0000     1.93      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             323      1.4962     1.4962     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             324      5.0368     5.0368     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             324      1.5006     1.5006     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             325      5.0648     5.0648     0.0000     0.0000     0.0000     0.0000     1.75      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             325      1.5653     1.5653     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             326      5.0123     5.0123     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             326      1.5041     1.5041     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             327      4.9826     4.9826     0.0000     0.0000     0.0000     0.0000     1.53      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             327      1.5303     1.5303     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             328      5.1503     5.1503     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             328      1.5671     1.5671     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             329      5.1537     5.1537     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             329      1.5557     1.5557     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             330      5.1197     5.1197     0.0000     0.0000     0.0000     0.0000     1.55      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             330      1.5201     1.5201     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             331      4.9119     4.9119     0.0000     0.0000     0.0000     0.0000     1.83      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             331      1.5407     1.5407     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             332      4.7891     4.7891     0.0000     0.0000     0.0000     0.0000     1.80      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             332      1.5161     1.5161     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             333      4.8996     4.8996     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             333      1.4856     1.4856     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             334      4.9270     4.9270     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             334      1.4668     1.4668     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             335      4.9385     4.9385     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             335      1.5700     1.5700     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             336      5.0241     5.0241     0.0000     0.0000     0.0000     0.0000     2.01      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             336      1.5507     1.5507     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             337      5.0341     5.0341     0.0000     0.0000     0.0000     0.0000     1.54      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             337      1.5369     1.5369     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             338      5.2091     5.2091     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             338      1.4972     1.4972     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             339      4.8751     4.8751     0.0000     0.0000     0.0000     0.0000     1.92      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             339      1.5202     1.5202     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             340      5.1546     5.1546     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             340      1.4368     1.4368     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             341      5.0928     5.0928     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             341      1.5358     1.5358     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             342      4.9837     4.9837     0.0000     0.0000     0.0000     0.0000     1.59      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             342      1.6395     1.6395     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             343      5.7051     5.7051     0.0000     0.0000     0.0000     0.0000     1.58      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             343      1.6208     1.6208     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             344      5.7185     5.7185     0.0000     0.0000     0.0000     0.0000     1.57      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             344      1.5543     1.5543     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             345      5.1598     5.1598     0.0000     0.0000     0.0000     0.0000     1.56      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             345      1.5364     1.5364     0.0000     0.0000     0.0000     0.0000     0.19       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             346      4.8643     4.8643     0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             346      1.5471     1.5471     0.0000     0.0000     0.0000     0.0000     0.21       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             347      4.7357     4.7357     0.0000     0.0000     0.0000     0.0000     1.78      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             347      1.5045     1.5045     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             348      5.0007     5.0007     0.0000     0.0000     0.0000     0.0000     1.76      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             348      1.5742     1.5742     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Train Loss:  Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             349      5.9101     5.9101     0.0000     0.0000     0.0000     0.0000     1.60      
+Val Loss:    Epoch    Total      Graph      Atom       Grad       Stress     Addn.      Time      
+             349      1.6290     1.6290     0.0000     0.0000     0.0000     0.0000     0.20       Saving model
+Test MAE: 0.8396224654884404
+Time taken (s) 653.3031284809113
+Error: The source file 'prediction_results_test_set.csv' was not found.
+Error: The source file 'history_val_mae.json' was not found.
+
+  0%|          | 0/1239 [00:00<?, ?it/s]
+  1%|          | 8/1239 [00:00<00:15, 78.09it/s]
+  1%|▏         | 16/1239 [00:00<00:16, 75.61it/s]
+  2%|▏         | 24/1239 [00:00<00:25, 47.96it/s]
+  2%|▏         | 30/1239 [00:00<00:38, 31.60it/s]
+  3%|▎         | 35/1239 [00:00<00:40, 29.72it/s]
+  3%|▎         | 42/1239 [00:01<00:32, 36.48it/s]
+  4%|▍         | 49/1239 [00:01<00:28, 41.71it/s]
+  5%|▍         | 57/1239 [00:01<00:23, 49.48it/s]
+  5%|▌         | 63/1239 [00:01<00:27, 43.04it/s]
+  6%|▌         | 69/1239 [00:01<00:27, 42.52it/s]
+  6%|▌         | 77/1239 [00:01<00:24, 47.43it/s]
+  7%|▋         | 83/1239 [00:01<00:24, 48.01it/s]
+  7%|▋         | 89/1239 [00:02<00:28, 40.48it/s]
+  8%|▊         | 98/1239 [00:02<00:22, 50.79it/s]
+  8%|▊         | 104/1239 [00:02<00:29, 38.45it/s]
+  9%|▉         | 111/1239 [00:02<00:25, 44.05it/s]
+ 10%|▉         | 121/1239 [00:02<00:20, 55.45it/s]
+ 11%|█         | 133/1239 [00:02<00:21, 51.67it/s]
+ 11%|█▏        | 141/1239 [00:03<00:19, 55.17it/s]
+ 12%|█▏        | 149/1239 [00:03<00:19, 55.70it/s]
+ 13%|█▎        | 156/1239 [00:03<00:18, 58.03it/s]
+ 13%|█▎        | 163/1239 [00:03<00:25, 42.41it/s]
+ 14%|█▍        | 172/1239 [00:03<00:21, 50.00it/s]
+ 14%|█▍        | 178/1239 [00:03<00:20, 51.02it/s]
+ 15%|█▍        | 184/1239 [00:04<00:23, 44.02it/s]
+ 16%|█▌        | 194/1239 [00:04<00:19, 54.41it/s]
+ 16%|█▌        | 201/1239 [00:04<00:17, 57.92it/s]
+ 17%|█▋        | 208/1239 [00:04<00:23, 43.20it/s]
+ 17%|█▋        | 216/1239 [00:04<00:20, 49.79it/s]
+ 18%|█▊        | 224/1239 [00:04<00:18, 55.48it/s]
+ 19%|█▉        | 233/1239 [00:04<00:16, 62.61it/s]
+ 19%|█▉        | 240/1239 [00:04<00:16, 62.41it/s]
+ 20%|█▉        | 247/1239 [00:05<00:19, 49.90it/s]
+ 20%|██        | 253/1239 [00:05<00:19, 51.79it/s]
+ 21%|██        | 259/1239 [00:05<00:22, 43.88it/s]
+ 21%|██▏       | 266/1239 [00:05<00:20, 46.94it/s]
+ 22%|██▏       | 275/1239 [00:05<00:17, 55.35it/s]
+ 23%|██▎       | 282/1239 [00:05<00:19, 48.72it/s]
+ 23%|██▎       | 290/1239 [00:05<00:17, 52.92it/s]
+ 24%|██▍       | 296/1239 [00:06<00:18, 52.38it/s]
+ 24%|██▍       | 303/1239 [00:06<00:21, 42.99it/s]
+ 25%|██▌       | 313/1239 [00:06<00:22, 41.84it/s]
+ 26%|██▌       | 318/1239 [00:06<00:21, 41.88it/s]
+ 26%|██▌       | 323/1239 [00:06<00:23, 39.54it/s]
+ 27%|██▋       | 330/1239 [00:06<00:19, 45.57it/s]
+ 27%|██▋       | 338/1239 [00:07<00:18, 49.40it/s]
+ 28%|██▊       | 345/1239 [00:07<00:17, 51.97it/s]
+ 28%|██▊       | 351/1239 [00:07<00:21, 40.76it/s]
+ 29%|██▉       | 359/1239 [00:07<00:18, 48.53it/s]
+ 30%|██▉       | 368/1239 [00:07<00:15, 57.27it/s]
+ 30%|███       | 375/1239 [00:07<00:16, 51.89it/s]
+ 31%|███       | 381/1239 [00:07<00:16, 52.96it/s]
+ 31%|███▏      | 388/1239 [00:08<00:15, 54.87it/s]
+ 32%|███▏      | 398/1239 [00:08<00:12, 65.57it/s]
+ 33%|███▎      | 405/1239 [00:08<00:14, 58.47it/s]
+ 33%|███▎      | 413/1239 [00:08<00:13, 63.20it/s]
+ 34%|███▍      | 420/1239 [00:08<00:19, 41.70it/s]
+ 35%|███▍      | 430/1239 [00:08<00:15, 52.21it/s]
+ 35%|███▌      | 438/1239 [00:08<00:14, 56.64it/s]
+ 36%|███▌      | 445/1239 [00:09<00:14, 53.74it/s]
+ 37%|███▋      | 453/1239 [00:09<00:13, 57.19it/s]
+ 37%|███▋      | 464/1239 [00:09<00:11, 68.74it/s]
+ 38%|███▊      | 474/1239 [00:09<00:10, 75.43it/s]
+ 39%|███▉      | 484/1239 [00:09<00:09, 78.48it/s]
+ 40%|███▉      | 493/1239 [00:09<00:14, 50.31it/s]
+ 40%|████      | 500/1239 [00:10<00:19, 38.51it/s]
+ 41%|████      | 506/1239 [00:10<00:18, 39.95it/s]
+ 41%|████▏     | 513/1239 [00:10<00:16, 45.13it/s]
+ 42%|████▏     | 519/1239 [00:10<00:15, 45.36it/s]
+ 42%|████▏     | 525/1239 [00:10<00:22, 32.11it/s]
+ 43%|████▎     | 534/1239 [00:10<00:17, 40.90it/s]
+ 44%|████▎     | 541/1239 [00:11<00:16, 43.38it/s]
+ 44%|████▍     | 550/1239 [00:11<00:13, 52.54it/s]
+ 45%|████▌     | 558/1239 [00:11<00:11, 56.96it/s]
+ 46%|████▌     | 565/1239 [00:11<00:14, 46.06it/s]
+ 46%|████▌     | 571/1239 [00:11<00:14, 47.53it/s]
+ 47%|████▋     | 579/1239 [00:11<00:12, 52.79it/s]
+ 47%|████▋     | 585/1239 [00:11<00:14, 45.23it/s]
+ 48%|████▊     | 591/1239 [00:12<00:14, 44.57it/s]
+ 48%|████▊     | 598/1239 [00:12<00:13, 48.44it/s]
+ 49%|████▊     | 604/1239 [00:12<00:12, 48.99it/s]
+ 49%|████▉     | 611/1239 [00:12<00:12, 52.17it/s]
+ 50%|████▉     | 619/1239 [00:12<00:10, 57.65it/s]
+ 51%|█████     | 626/1239 [00:12<00:12, 50.96it/s]
+ 51%|█████     | 634/1239 [00:12<00:10, 57.02it/s]
+ 52%|█████▏    | 642/1239 [00:13<00:14, 40.89it/s]
+ 52%|█████▏    | 647/1239 [00:13<00:14, 40.85it/s]
+ 53%|█████▎    | 652/1239 [00:13<00:14, 41.20it/s]
+ 53%|█████▎    | 661/1239 [00:13<00:11, 50.52it/s]
+ 54%|█████▍    | 667/1239 [00:13<00:11, 49.06it/s]
+ 54%|█████▍    | 673/1239 [00:13<00:12, 45.51it/s]
+ 55%|█████▍    | 681/1239 [00:13<00:10, 53.36it/s]
+ 55%|█████▌    | 687/1239 [00:14<00:13, 42.07it/s]
+ 56%|█████▌    | 692/1239 [00:14<00:12, 42.54it/s]
+ 56%|█████▋    | 697/1239 [00:14<00:12, 42.90it/s]
+ 57%|█████▋    | 703/1239 [00:14<00:11, 45.54it/s]
+ 57%|█████▋    | 710/1239 [00:14<00:16, 31.40it/s]
+ 58%|█████▊    | 717/1239 [00:14<00:13, 38.04it/s]
+ 59%|█████▊    | 725/1239 [00:15<00:11, 46.32it/s]
+ 59%|█████▉    | 735/1239 [00:15<00:08, 56.69it/s]
+ 60%|█████▉    | 742/1239 [00:15<00:13, 37.97it/s]
+ 61%|██████    | 751/1239 [00:15<00:10, 46.27it/s]
+ 61%|██████    | 758/1239 [00:15<00:10, 47.38it/s]
+ 62%|██████▏   | 766/1239 [00:15<00:08, 54.07it/s]
+ 62%|██████▏   | 773/1239 [00:16<00:13, 34.18it/s]
+ 63%|██████▎   | 779/1239 [00:16<00:12, 36.01it/s]
+ 63%|██████▎   | 784/1239 [00:16<00:12, 36.64it/s]
+ 64%|██████▍   | 793/1239 [00:16<00:09, 47.03it/s]
+ 65%|██████▍   | 800/1239 [00:16<00:11, 39.79it/s]
+ 65%|██████▌   | 806/1239 [00:16<00:10, 43.15it/s]
+ 66%|██████▌   | 816/1239 [00:17<00:07, 54.68it/s]
+ 66%|██████▋   | 823/1239 [00:17<00:08, 46.51it/s]
+ 67%|██████▋   | 833/1239 [00:17<00:07, 55.88it/s]
+ 68%|██████▊   | 843/1239 [00:17<00:06, 64.94it/s]
+ 69%|██████▊   | 851/1239 [00:17<00:06, 64.22it/s]
+ 69%|██████▉   | 859/1239 [00:17<00:06, 61.96it/s]
+ 70%|██████▉   | 866/1239 [00:17<00:07, 50.27it/s]
+ 70%|███████   | 872/1239 [00:18<00:08, 42.30it/s]
+ 71%|███████   | 879/1239 [00:18<00:07, 47.61it/s]
+ 72%|███████▏  | 886/1239 [00:18<00:06, 50.86it/s]
+ 72%|███████▏  | 893/1239 [00:18<00:06, 51.85it/s]
+ 73%|███████▎  | 902/1239 [00:18<00:06, 55.90it/s]
+ 73%|███████▎  | 908/1239 [00:18<00:06, 47.47it/s]
+ 74%|███████▍  | 915/1239 [00:18<00:06, 51.49it/s]
+ 74%|███████▍  | 921/1239 [00:19<00:08, 36.93it/s]
+ 75%|███████▍  | 926/1239 [00:19<00:08, 36.28it/s]
+ 75%|███████▌  | 931/1239 [00:19<00:08, 35.66it/s]
+ 76%|███████▌  | 937/1239 [00:19<00:07, 39.46it/s]
+ 76%|███████▋  | 945/1239 [00:20<00:09, 30.48it/s]
+ 77%|███████▋  | 949/1239 [00:20<00:11, 26.12it/s]
+ 77%|███████▋  | 958/1239 [00:20<00:07, 36.13it/s]
+ 78%|███████▊  | 966/1239 [00:20<00:06, 43.69it/s]
+ 79%|███████▊  | 974/1239 [00:20<00:05, 50.11it/s]
+ 79%|███████▉  | 981/1239 [00:20<00:04, 52.62it/s]
+ 80%|███████▉  | 988/1239 [00:20<00:05, 46.36it/s]
+ 80%|████████  | 996/1239 [00:21<00:04, 52.38it/s]
+ 81%|████████  | 1002/1239 [00:21<00:05, 40.34it/s]
+ 81%|████████▏ | 1007/1239 [00:21<00:06, 35.19it/s]
+ 82%|████████▏ | 1012/1239 [00:21<00:06, 32.59it/s]
+ 82%|████████▏ | 1016/1239 [00:21<00:07, 28.01it/s]
+ 82%|████████▏ | 1020/1239 [00:22<00:09, 22.21it/s]
+ 83%|████████▎ | 1027/1239 [00:22<00:07, 29.66it/s]
+ 83%|████████▎ | 1033/1239 [00:22<00:05, 34.55it/s]
+ 84%|████████▍ | 1043/1239 [00:22<00:04, 47.74it/s]
+ 85%|████████▍ | 1049/1239 [00:22<00:04, 45.09it/s]
+ 85%|████████▌ | 1056/1239 [00:22<00:03, 49.29it/s]
+ 86%|████████▌ | 1062/1239 [00:22<00:04, 41.59it/s]
+ 86%|████████▌ | 1067/1239 [00:23<00:05, 31.88it/s]
+ 87%|████████▋ | 1075/1239 [00:23<00:04, 39.89it/s]
+ 87%|████████▋ | 1083/1239 [00:23<00:03, 47.30it/s]
+ 88%|████████▊ | 1090/1239 [00:23<00:03, 48.97it/s]
+ 88%|████████▊ | 1096/1239 [00:23<00:03, 38.90it/s]
+ 89%|████████▉ | 1103/1239 [00:23<00:03, 44.70it/s]
+ 90%|████████▉ | 1109/1239 [00:24<00:03, 39.16it/s]
+ 90%|█████████ | 1119/1239 [00:24<00:02, 49.87it/s]
+ 91%|█████████ | 1125/1239 [00:24<00:02, 46.94it/s]
+ 91%|█████████▏| 1132/1239 [00:24<00:02, 51.94it/s]
+ 92%|█████████▏| 1139/1239 [00:24<00:01, 56.05it/s]
+ 92%|█████████▏| 1146/1239 [00:24<00:01, 55.66it/s]
+ 93%|█████████▎| 1152/1239 [00:24<00:01, 56.43it/s]
+ 94%|█████████▍| 1162/1239 [00:24<00:01, 67.61it/s]
+ 94%|█████████▍| 1170/1239 [00:25<00:01, 46.86it/s]
+ 95%|█████████▍| 1177/1239 [00:25<00:01, 38.07it/s]
+ 95%|█████████▌| 1183/1239 [00:25<00:01, 41.64it/s]
+ 96%|█████████▌| 1189/1239 [00:25<00:01, 30.73it/s]
+ 97%|█████████▋| 1197/1239 [00:26<00:01, 31.58it/s]
+ 97%|█████████▋| 1203/1239 [00:26<00:01, 35.96it/s]
+ 98%|█████████▊| 1212/1239 [00:26<00:00, 42.00it/s]
+ 98%|█████████▊| 1219/1239 [00:26<00:00, 46.43it/s]
+ 99%|█████████▉| 1225/1239 [00:26<00:00, 47.13it/s]
+ 99%|█████████▉| 1231/1239 [00:26<00:00, 35.12it/s]
+100%|█████████▉| 1237/1239 [00:27<00:00, 38.56it/s]
+100%|██████████| 1239/1239 [00:27<00:00, 45.76it/s]
+/ibex/user/shoaibsa/miniconda3/envs/py312/lib/python3.12/site-packages/alignn/graphs.py:1176: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:253.)
+  self.lattices = torch.tensor(self.lattices).type(
+
+  0%|          | 0/1239 [00:00<?, ?it/s]
+  3%|▎         | 43/1239 [00:00<00:02, 429.34it/s]
+ 16%|█▋        | 202/1239 [00:00<00:00, 1107.05it/s]
+ 29%|██▉       | 363/1239 [00:00<00:00, 1329.49it/s]
+ 42%|████▏     | 522/1239 [00:00<00:00, 1430.98it/s]
+ 54%|█████▍    | 670/1239 [00:00<00:00, 1447.88it/s]
+ 66%|██████▌   | 815/1239 [00:00<00:00, 1404.98it/s]
+ 77%|███████▋  | 956/1239 [00:00<00:00, 1371.60it/s]
+ 88%|████████▊ | 1094/1239 [00:00<00:00, 1314.75it/s]
+100%|██████████| 1239/1239 [00:00<00:00, 1329.40it/s]
+
+  0%|          | 0/154 [00:00<?, ?it/s]
+  5%|▍         | 7/154 [00:00<00:02, 63.65it/s]
+ 10%|█         | 16/154 [00:00<00:01, 72.99it/s]
+ 16%|█▌        | 24/154 [00:00<00:01, 75.52it/s]
+ 21%|██        | 32/154 [00:00<00:01, 73.23it/s]
+ 26%|██▌       | 40/154 [00:00<00:01, 66.92it/s]
+ 31%|███       | 47/154 [00:00<00:01, 63.09it/s]
+ 35%|███▌      | 54/154 [00:00<00:02, 41.77it/s]
+ 39%|███▉      | 60/154 [00:01<00:02, 41.66it/s]
+ 44%|████▎     | 67/154 [00:01<00:01, 46.53it/s]
+ 48%|████▊     | 74/154 [00:01<00:01, 50.99it/s]
+ 53%|█████▎    | 81/154 [00:01<00:01, 51.71it/s]
+ 56%|█████▋    | 87/154 [00:01<00:01, 49.10it/s]
+ 62%|██████▏   | 96/154 [00:01<00:00, 58.70it/s]
+ 67%|██████▋   | 103/154 [00:02<00:01, 37.70it/s]
+ 71%|███████▏  | 110/154 [00:02<00:01, 42.93it/s]
+ 75%|███████▌  | 116/154 [00:02<00:00, 41.76it/s]
+ 79%|███████▉  | 122/154 [00:02<00:00, 45.48it/s]
+ 83%|████████▎ | 128/154 [00:02<00:00, 35.32it/s]
+ 86%|████████▋ | 133/154 [00:02<00:00, 37.38it/s]
+ 90%|████████▉ | 138/154 [00:02<00:00, 34.77it/s]
+ 97%|█████████▋| 149/154 [00:03<00:00, 49.49it/s]
+100%|██████████| 154/154 [00:03<00:00, 44.41it/s]
+
+  0%|          | 0/154 [00:00<?, ?it/s]
+ 98%|█████████▊| 151/154 [00:00<00:00, 1431.31it/s]
+100%|██████████| 154/154 [00:00<00:00, 1442.35it/s]
+
+  0%|          | 0/154 [00:00<?, ?it/s]
+  5%|▍         | 7/154 [00:00<00:02, 60.88it/s]
+  9%|▉         | 14/154 [00:00<00:02, 60.33it/s]
+ 14%|█▎        | 21/154 [00:00<00:02, 51.77it/s]
+ 18%|█▊        | 28/154 [00:00<00:02, 53.91it/s]
+ 23%|██▎       | 35/154 [00:00<00:02, 48.18it/s]
+ 27%|██▋       | 41/154 [00:00<00:03, 37.34it/s]
+ 30%|██▉       | 46/154 [00:01<00:02, 39.52it/s]
+ 34%|███▍      | 53/154 [00:01<00:02, 45.91it/s]
+ 38%|███▊      | 59/154 [00:01<00:02, 45.67it/s]
+ 42%|████▏     | 64/154 [00:01<00:02, 42.73it/s]
+ 46%|████▌     | 71/154 [00:01<00:01, 49.01it/s]
+ 50%|█████     | 77/154 [00:01<00:01, 47.70it/s]
+ 55%|█████▌    | 85/154 [00:01<00:01, 55.67it/s]
+ 59%|█████▉    | 91/154 [00:02<00:01, 34.34it/s]
+ 62%|██████▏   | 96/154 [00:02<00:01, 35.49it/s]
+ 69%|██████▉   | 106/154 [00:02<00:01, 47.62it/s]
+ 73%|███████▎  | 112/154 [00:02<00:00, 47.17it/s]
+ 77%|███████▋  | 118/154 [00:02<00:00, 48.74it/s]
+ 81%|████████  | 124/154 [00:02<00:00, 47.67it/s]
+ 84%|████████▍ | 130/154 [00:02<00:00, 48.14it/s]
+ 88%|████████▊ | 136/154 [00:02<00:00, 48.27it/s]
+ 92%|█████████▏| 142/154 [00:03<00:00, 36.97it/s]
+ 96%|█████████▌| 148/154 [00:03<00:00, 38.35it/s]
+100%|██████████| 154/154 [00:03<00:00, 44.71it/s]
+
+  0%|          | 0/154 [00:00<?, ?it/s]
+ 96%|█████████▌| 148/154 [00:00<00:00, 1445.41it/s]
+100%|██████████| 154/154 [00:00<00:00, 1461.99it/s]
+/ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/ALIGNN/ALIGNN_MP/alignn/train.py:503: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scheduler.step()
