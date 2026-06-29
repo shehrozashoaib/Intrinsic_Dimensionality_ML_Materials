@@ -1,0 +1,397 @@
+2026-06-28 17:33:28.707721: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-06-28 17:33:28.723615: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:485] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2026-06-28 17:33:28.740914: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:8454] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2026-06-28 17:33:28.746147: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1452] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2026-06-28 17:33:28.759314: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-06-28 17:33:29.945631: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+2026-06-28 17:33:33.091723: I tensorflow/core/common_runtime/gpu/gpu_device.cc:2021] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 31134 MB memory:  -> device: 0, name: Tesla V100-SXM2-32GB, pci bus id: 0000:b2:00.0, compute capability: 7.0
+INFO:kgcnn.models.utils:Updated model kwargs: '{'name': 'DimeNetPP', 'inputs': [{'shape': [None], 'name': 'node_number', 'dtype': 'int32', 'ragged': True}, {'shape': [None, 3], 'name': 'node_coordinates', 'dtype': 'float32', 'ragged': True}, {'shape': [None, 2], 'name': 'range_indices', 'dtype': 'int64', 'ragged': True}, {'shape': [None, 2], 'name': 'angle_indices', 'dtype': 'int64', 'ragged': True}, {'shape': (None, 3), 'name': 'range_image', 'dtype': 'int64', 'ragged': True}, {'shape': (3, 3), 'name': 'graph_lattice', 'dtype': 'float32', 'ragged': False}], 'input_tensor_type': 'ragged', 'input_embedding': None, 'cast_disjoint_kwargs': {}, 'input_node_embedding': {'input_dim': 95, 'output_dim': 55, 'embeddings_initializer': {'class_name': 'RandomUniform', 'config': {'minval': -1.7320508075688772, 'maxval': 1.7320508075688772}}}, 'emb_size': 55, 'out_emb_size': 64, 'int_emb_size': 64, 'basis_emb_size': 8, 'num_blocks': 4, 'num_spherical': 7, 'num_radial': 6, 'cutoff': 8.0, 'envelope_exponent': 5, 'num_before_skip': 1, 'num_after_skip': 2, 'num_dense_output': 3, 'num_targets': 1, 'extensive': False, 'output_init': 'zeros', 'activation': 'swish', 'verbose': 10, 'output_embedding': 'graph', 'use_output_mlp': False, 'output_tensor_type': 'padded', 'output_scaling': None, 'output_mlp': {}}'.
+Visible GPUs: [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+Loading cached tensors: /ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/DimeNetPP/DimeNetPP_MP/cached_tensors_dimenetpp_kvrh/splitseed1123/dimenetpp_kvrh_cached_tensors.pkl
+Loaded cached tensors from: /ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/DimeNetPP/DimeNetPP_MP/cached_tensors_dimenetpp_kvrh/splitseed1123
+Shapes: y_train (8742, 1) y_val (1094, 1) y_test (1097, 1)
+
+Running WRAPPER-V3 DimeNet++ log_kvrh model
+
+Projection method: fastfood
+Intrinsic dimension spec: 0.5
+num_blocks: 4
+D: 241155 d: 120578
+Trainable vars: ['z']
+Optimizer AdamW kwargs: {'learning_rate': 0.001, 'weight_decay': 0.0, 'amsgrad': True, 'clipnorm': 1.0}
+Model: "SubspaceProjectedGradTFV3_fastfood"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ DimeNetPP (Functional)          │ (None, 1)              │       241,155 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 1,410,310 (5.38 MB)
+ Trainable params: 120,578 (471.01 KB)
+ Non-trainable params: 1,289,732 (4.92 MB)
+Epoch 1/180
+137/137 - 22s - 163ms/step - loss: 53345.8047 - val_loss: 0.9312
+Epoch 2/180
+137/137 - 4s - 29ms/step - loss: 0.2401 - val_loss: 0.4386
+Epoch 3/180
+137/137 - 4s - 28ms/step - loss: 0.1675 - val_loss: 0.3352
+Epoch 4/180
+137/137 - 4s - 28ms/step - loss: 0.1234 - val_loss: 0.3402
+Epoch 5/180
+137/137 - 4s - 28ms/step - loss: 0.1016 - val_loss: 0.3050
+Epoch 6/180
+137/137 - 4s - 28ms/step - loss: 0.0869 - val_loss: 0.3123
+Epoch 7/180
+137/137 - 4s - 28ms/step - loss: 0.0778 - val_loss: 0.3231
+Epoch 8/180
+137/137 - 4s - 28ms/step - loss: 0.0639 - val_loss: 0.2915
+Epoch 9/180
+137/137 - 4s - 28ms/step - loss: 0.0640 - val_loss: 0.3017
+Epoch 10/180
+137/137 - 4s - 28ms/step - loss: 0.0501 - val_loss: 0.2591
+Epoch 11/180
+137/137 - 4s - 28ms/step - loss: 0.0472 - val_loss: 0.3065
+Epoch 12/180
+137/137 - 4s - 28ms/step - loss: 0.0461 - val_loss: 0.2656
+Epoch 13/180
+137/137 - 4s - 28ms/step - loss: 0.0399 - val_loss: 0.2918
+Epoch 14/180
+137/137 - 4s - 28ms/step - loss: 0.0342 - val_loss: 0.2626
+Epoch 15/180
+137/137 - 4s - 28ms/step - loss: 0.0319 - val_loss: 0.2563
+Epoch 16/180
+137/137 - 4s - 28ms/step - loss: 0.0273 - val_loss: 0.2886
+Epoch 17/180
+137/137 - 4s - 28ms/step - loss: 0.0272 - val_loss: 0.3020
+Epoch 18/180
+137/137 - 4s - 28ms/step - loss: 0.0245 - val_loss: 0.2699
+Epoch 19/180
+137/137 - 4s - 28ms/step - loss: 0.0197 - val_loss: 0.2986
+Epoch 20/180
+137/137 - 4s - 28ms/step - loss: 0.0182 - val_loss: 0.2576
+Epoch 21/180
+137/137 - 4s - 29ms/step - loss: 0.0158 - val_loss: 0.2690
+Epoch 22/180
+137/137 - 4s - 28ms/step - loss: 0.0149 - val_loss: 0.3020
+Epoch 23/180
+137/137 - 4s - 29ms/step - loss: 0.0154 - val_loss: 0.2940
+Epoch 24/180
+137/137 - 4s - 28ms/step - loss: 0.0152 - val_loss: 0.2885
+Epoch 25/180
+137/137 - 4s - 28ms/step - loss: 0.0129 - val_loss: 0.2830
+Epoch 26/180
+137/137 - 4s - 28ms/step - loss: 0.0128 - val_loss: 0.2856
+Epoch 27/180
+137/137 - 4s - 28ms/step - loss: 0.0107 - val_loss: 0.2811
+Epoch 28/180
+137/137 - 4s - 29ms/step - loss: 0.0092 - val_loss: 0.2915
+Epoch 29/180
+137/137 - 4s - 28ms/step - loss: 0.0081 - val_loss: 0.2974
+Epoch 30/180
+137/137 - 4s - 28ms/step - loss: 0.0069 - val_loss: 0.2883
+Epoch 31/180
+137/137 - 4s - 28ms/step - loss: 0.0072 - val_loss: 0.2739
+Epoch 32/180
+137/137 - 4s - 28ms/step - loss: 0.0065 - val_loss: 0.2910
+Epoch 33/180
+137/137 - 4s - 28ms/step - loss: 0.0063 - val_loss: 0.2835
+Epoch 34/180
+137/137 - 4s - 28ms/step - loss: 0.0063 - val_loss: 0.2902
+Epoch 35/180
+137/137 - 4s - 28ms/step - loss: 0.0057 - val_loss: 0.3037
+Epoch 36/180
+137/137 - 4s - 28ms/step - loss: 0.0057 - val_loss: 0.3014
+Epoch 37/180
+137/137 - 4s - 28ms/step - loss: 0.0054 - val_loss: 0.3109
+Epoch 38/180
+137/137 - 4s - 28ms/step - loss: 0.0057 - val_loss: 0.2904
+Epoch 39/180
+137/137 - 4s - 28ms/step - loss: 0.0052 - val_loss: 0.2851
+Epoch 40/180
+137/137 - 4s - 28ms/step - loss: 0.0049 - val_loss: 0.2956
+Epoch 41/180
+137/137 - 4s - 28ms/step - loss: 0.0043 - val_loss: 0.2867
+Epoch 42/180
+137/137 - 4s - 28ms/step - loss: 0.0036 - val_loss: 0.2870
+Epoch 43/180
+137/137 - 4s - 28ms/step - loss: 0.0042 - val_loss: 0.2885
+Epoch 44/180
+137/137 - 4s - 28ms/step - loss: 0.0039 - val_loss: 0.2761
+Epoch 45/180
+137/137 - 4s - 29ms/step - loss: 0.0034 - val_loss: 0.2896
+Epoch 46/180
+137/137 - 4s - 28ms/step - loss: 0.0035 - val_loss: 0.2871
+Epoch 47/180
+137/137 - 4s - 28ms/step - loss: 0.0034 - val_loss: 0.2810
+Epoch 48/180
+137/137 - 4s - 28ms/step - loss: 0.0033 - val_loss: 0.2833
+Epoch 49/180
+137/137 - 4s - 28ms/step - loss: 0.0030 - val_loss: 0.2911
+Epoch 50/180
+137/137 - 4s - 28ms/step - loss: 0.0032 - val_loss: 0.2910
+Epoch 51/180
+137/137 - 4s - 28ms/step - loss: 0.0030 - val_loss: 0.2839
+Epoch 52/180
+137/137 - 4s - 28ms/step - loss: 0.0027 - val_loss: 0.2892
+Epoch 53/180
+137/137 - 4s - 28ms/step - loss: 0.0026 - val_loss: 0.2895
+Epoch 54/180
+137/137 - 4s - 28ms/step - loss: 0.0025 - val_loss: 0.2894
+Epoch 55/180
+137/137 - 4s - 28ms/step - loss: 0.0026 - val_loss: 0.2908
+Epoch 56/180
+137/137 - 4s - 28ms/step - loss: 0.0025 - val_loss: 0.2892
+Epoch 57/180
+137/137 - 4s - 28ms/step - loss: 0.0023 - val_loss: 0.2904
+Epoch 58/180
+137/137 - 4s - 28ms/step - loss: 0.0024 - val_loss: 0.2886
+Epoch 59/180
+137/137 - 4s - 28ms/step - loss: 0.0024 - val_loss: 0.2875
+Epoch 60/180
+137/137 - 4s - 28ms/step - loss: 0.0024 - val_loss: 0.2814
+Epoch 61/180
+137/137 - 4s - 28ms/step - loss: 0.0020 - val_loss: 0.2876
+Epoch 62/180
+137/137 - 4s - 29ms/step - loss: 0.0022 - val_loss: 0.2865
+Epoch 63/180
+137/137 - 4s - 28ms/step - loss: 0.0020 - val_loss: 0.2870
+Epoch 64/180
+137/137 - 4s - 28ms/step - loss: 0.0019 - val_loss: 0.2964
+Epoch 65/180
+137/137 - 4s - 28ms/step - loss: 0.0020 - val_loss: 0.2919
+Epoch 66/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2902
+Epoch 67/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2924
+Epoch 68/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2862
+Epoch 69/180
+137/137 - 4s - 28ms/step - loss: 0.0019 - val_loss: 0.2891
+Epoch 70/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2866
+Epoch 71/180
+137/137 - 4s - 28ms/step - loss: 0.0017 - val_loss: 0.2848
+Epoch 72/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2878
+Epoch 73/180
+137/137 - 4s - 28ms/step - loss: 0.0017 - val_loss: 0.2880
+Epoch 74/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2883
+Epoch 75/180
+137/137 - 4s - 28ms/step - loss: 0.0019 - val_loss: 0.2880
+Epoch 76/180
+137/137 - 4s - 28ms/step - loss: 0.0021 - val_loss: 0.2906
+Epoch 77/180
+137/137 - 4s - 28ms/step - loss: 0.0018 - val_loss: 0.2920
+Epoch 78/180
+137/137 - 4s - 28ms/step - loss: 0.0017 - val_loss: 0.2882
+Epoch 79/180
+137/137 - 4s - 28ms/step - loss: 0.0016 - val_loss: 0.2879
+Epoch 80/180
+137/137 - 4s - 28ms/step - loss: 0.0016 - val_loss: 0.2891
+Epoch 81/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2915
+Epoch 82/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2873
+Epoch 83/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2859
+Epoch 84/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2916
+Epoch 85/180
+137/137 - 4s - 28ms/step - loss: 0.0015 - val_loss: 0.2960
+Epoch 86/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2877
+Epoch 87/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2875
+Epoch 88/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2922
+Epoch 89/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2838
+Epoch 90/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2903
+Epoch 91/180
+137/137 - 4s - 28ms/step - loss: 0.0014 - val_loss: 0.2899
+Epoch 92/180
+137/137 - 4s - 28ms/step - loss: 0.0013 - val_loss: 0.2891
+Epoch 93/180
+137/137 - 4s - 28ms/step - loss: 0.0013 - val_loss: 0.2884
+Epoch 94/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2868
+Epoch 95/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2891
+Epoch 96/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2903
+Epoch 97/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2867
+Epoch 98/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2924
+Epoch 99/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2912
+Epoch 100/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2906
+Epoch 101/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2923
+Epoch 102/180
+137/137 - 4s - 28ms/step - loss: 0.0013 - val_loss: 0.2894
+Epoch 103/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2901
+Epoch 104/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2888
+Epoch 105/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2904
+Epoch 106/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2899
+Epoch 107/180
+137/137 - 4s - 29ms/step - loss: 0.0012 - val_loss: 0.2905
+Epoch 108/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2881
+Epoch 109/180
+137/137 - 4s - 28ms/step - loss: 0.0013 - val_loss: 0.2915
+Epoch 110/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2887
+Epoch 111/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2914
+Epoch 112/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2932
+Epoch 113/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2949
+Epoch 114/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2901
+Epoch 115/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2880
+Epoch 116/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2906
+Epoch 117/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2892
+Epoch 118/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2865
+Epoch 119/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2916
+Epoch 120/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2883
+Epoch 121/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2860
+Epoch 122/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2909
+Epoch 123/180
+137/137 - 4s - 28ms/step - loss: 9.3391e-04 - val_loss: 0.2898
+Epoch 124/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2889
+Epoch 125/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2888
+Epoch 126/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2854
+Epoch 127/180
+137/137 - 4s - 28ms/step - loss: 9.7974e-04 - val_loss: 0.2941
+Epoch 128/180
+137/137 - 4s - 28ms/step - loss: 9.8742e-04 - val_loss: 0.2931
+Epoch 129/180
+137/137 - 4s - 28ms/step - loss: 9.9602e-04 - val_loss: 0.2881
+Epoch 130/180
+137/137 - 4s - 28ms/step - loss: 9.3442e-04 - val_loss: 0.2930
+Epoch 131/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2893
+Epoch 132/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2910
+Epoch 133/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2917
+Epoch 134/180
+137/137 - 4s - 28ms/step - loss: 9.8037e-04 - val_loss: 0.2910
+Epoch 135/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2898
+Epoch 136/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2911
+Epoch 137/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2908
+Epoch 138/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2886
+Epoch 139/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2914
+Epoch 140/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2858
+Epoch 141/180
+137/137 - 4s - 28ms/step - loss: 9.7753e-04 - val_loss: 0.2918
+Epoch 142/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2914
+Epoch 143/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2858
+Epoch 144/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2936
+Epoch 145/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2859
+Epoch 146/180
+137/137 - 4s - 28ms/step - loss: 9.7779e-04 - val_loss: 0.2896
+Epoch 147/180
+137/137 - 4s - 28ms/step - loss: 9.5819e-04 - val_loss: 0.2917
+Epoch 148/180
+137/137 - 4s - 28ms/step - loss: 9.7771e-04 - val_loss: 0.2948
+Epoch 149/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2918
+Epoch 150/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2894
+Epoch 151/180
+137/137 - 4s - 28ms/step - loss: 9.7702e-04 - val_loss: 0.2940
+Epoch 152/180
+137/137 - 4s - 28ms/step - loss: 9.9785e-04 - val_loss: 0.2890
+Epoch 153/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2922
+Epoch 154/180
+137/137 - 4s - 28ms/step - loss: 9.5646e-04 - val_loss: 0.2878
+Epoch 155/180
+137/137 - 4s - 28ms/step - loss: 0.0012 - val_loss: 0.2900
+Epoch 156/180
+137/137 - 4s - 28ms/step - loss: 0.0011 - val_loss: 0.2913
+Epoch 157/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2878
+Epoch 158/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2928
+Epoch 159/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2879
+Epoch 160/180
+137/137 - 4s - 28ms/step - loss: 9.5509e-04 - val_loss: 0.2891
+Epoch 161/180
+137/137 - 4s - 28ms/step - loss: 9.2673e-04 - val_loss: 0.2866
+Epoch 162/180
+137/137 - 4s - 28ms/step - loss: 0.0010 - val_loss: 0.2874
+Epoch 163/180
+137/137 - 4s - 28ms/step - loss: 9.5864e-04 - val_loss: 0.2890
+Epoch 164/180
+137/137 - 4s - 28ms/step - loss: 8.8907e-04 - val_loss: 0.2861
+Epoch 165/180
+137/137 - 4s - 28ms/step - loss: 8.3515e-04 - val_loss: 0.2893
+Epoch 166/180
+137/137 - 4s - 28ms/step - loss: 9.1003e-04 - val_loss: 0.2927
+Epoch 167/180
+137/137 - 4s - 28ms/step - loss: 8.6461e-04 - val_loss: 0.2941
+Epoch 168/180
+137/137 - 4s - 28ms/step - loss: 8.6988e-04 - val_loss: 0.2897
+Epoch 169/180
+137/137 - 4s - 28ms/step - loss: 9.8129e-04 - val_loss: 0.2911
+Epoch 170/180
+137/137 - 4s - 28ms/step - loss: 8.7501e-04 - val_loss: 0.2895
+Epoch 171/180
+137/137 - 4s - 28ms/step - loss: 8.5990e-04 - val_loss: 0.2874
+Epoch 172/180
+137/137 - 4s - 28ms/step - loss: 9.4465e-04 - val_loss: 0.2898
+Epoch 173/180
+137/137 - 4s - 28ms/step - loss: 8.1678e-04 - val_loss: 0.2916
+Epoch 174/180
+137/137 - 4s - 28ms/step - loss: 9.0453e-04 - val_loss: 0.2875
+Epoch 175/180
+137/137 - 4s - 28ms/step - loss: 9.4137e-04 - val_loss: 0.2886
+Epoch 176/180
+137/137 - 4s - 28ms/step - loss: 9.0481e-04 - val_loss: 0.2896
+Epoch 177/180
+137/137 - 4s - 28ms/step - loss: 8.8691e-04 - val_loss: 0.2922
+Epoch 178/180
+137/137 - 4s - 28ms/step - loss: 8.9433e-04 - val_loss: 0.2914
+Epoch 179/180
+137/137 - 4s - 28ms/step - loss: 9.6726e-04 - val_loss: 0.2870
+Epoch 180/180
+137/137 - 4s - 28ms/step - loss: 8.9615e-04 - val_loss: 0.2924
+Test MAE: 0.07268532763107588
+Validation MAE (original units): 0.07082289042424293
+Wrote: /ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/DimeNetPP/DimeNetPP_MP/results_dimenetpp_log_kvrh_fastfood/dimenetpp_log_kvrh_fastfood_nb4_dim50_modelseed123_splitseed1123_epochs180/dimenetpp_test_predictions_impl=wrapper_v3_method=fastfood_dim=50pct_nb=4_epochs=180_seed=123_splitseed=1123_ortho=0_rot=0_blockcols=0_orthobackend=none_train_mode=wrapped_task=log_kvrh.csv
+Wrote: /ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/DimeNetPP/DimeNetPP_MP/results_dimenetpp_log_kvrh_fastfood/dimenetpp_log_kvrh_fastfood_nb4_dim50_modelseed123_splitseed1123_epochs180/history_impl=wrapper_v3_method=fastfood_dim=50pct_nb=4_epochs=180_seed=123_splitseed=1123_ortho=0_rot=0_blockcols=0_orthobackend=none_train_mode=wrapped_task=log_kvrh.json
+Wrote: /ibex/user/shoaibsa/Intrinsic_Dimensionality_ML_Materials/DimeNetPP/DimeNetPP_MP/results_dimenetpp_log_kvrh_fastfood/dimenetpp_log_kvrh_fastfood_nb4_dim50_modelseed123_splitseed1123_epochs180/z_impl=wrapper_v3_method=fastfood_dim=50pct_nb=4_epochs=180_seed=123_splitseed=1123_ortho=0_rot=0_blockcols=0_orthobackend=none_train_mode=wrapped_task=log_kvrh.npy
+Training wall time: 731.88 s (12.20 min)
