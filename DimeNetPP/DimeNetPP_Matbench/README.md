@@ -32,10 +32,15 @@ DimeNetPP_Matbench/
     submit_kvrh_job.slurm         # one V100 job = full sweep for one NUM_BLOCKS
     smoke_kvrh_layers.slurm       # feasibility smoke: compile + 2 epochs at nb=2 and nb=4
     smoke_kvrh_nb4_long.slurm     # nb=4 convergence check (clipnorm)
-    curate_kvrh_results.py        # raw -> curated results/ layout
+    run_dimenetpp_fastfood_kvrh_noclip_sweep.sh  # ablation sweep: --clipnorm 0
+    submit_kvrh_noclip_job.slurm  # one V100 job = no-clip sweep for one NUM_BLOCKS
+    curate_kvrh_results.py        # raw -> curated results/ layout (clipped + no-clip)
   results/                        # curated, tracked
+    log_kvrh_fastfood_1layer_120epochs/
     log_kvrh_fastfood_2layer_150epochs/
     log_kvrh_fastfood_4layer_180epochs/
+    log_kvrh_fastfood_2layer_180epochs_noclip/   # ablation (clipnorm=0)
+    log_kvrh_fastfood_4layer_210epochs_noclip/   # ablation (clipnorm=0)
 ```
 
 ## Data
@@ -70,6 +75,21 @@ python scripts/curate_kvrh_results.py
 - Epochs: **150** for 2 layers, **180** for 4 layers (extra budget so the deeper model is not
   under-trained, keeping the depth comparison fair).
 - Seeds: model/split = 123/1123, 456/1456, 789/1789.
+
+## Depth (1 / 2 / 4 layers) — clipped
+
+Same 12-dim x 3-seed sweep at `num_blocks` 1, 2, 4 (epochs 120 / 150 / 180), all with
+`clipnorm=1.0`. Mean test MAE saturates above ~45% dim; above ~20% the deeper models win,
+and below ~2% they are slightly worse (harder to compress a larger model into a tiny subspace).
+At 100% dim: 1-layer 0.0697, 2-layer 0.0696, 4-layer 0.0663.
+
+## No-clipping ablation (`*_noclip`)
+
+The `*_noclip` exps repeat the 2- and 4-layer sweeps with `clipnorm=0` (extra epochs 180 / 210
+to give them every chance to recover). Without clipping the deep random-init loss spike is not
+tamed: **2-layer** is ~12-70% worse than clipped at most dims; **4-layer collapses** —
+2-10x worse at every dimension (e.g. 50% dim: test MAE 0.806 no-clip vs 0.072 clipped). This is
+the evidence that motivates the `clipnorm=1.0` default in the depth study.
 
 ## Results summary (mean test MAE over 3 seeds)
 

@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""Curate the raw DimeNet++ matbench log_kvrh sweep into the GitHub `results/` layout.
+"""Curate the raw DimeNet++ matbench log_kvrh sweeps into the GitHub `results/` layout.
 
-Mirrors DimeNetPP_MP/results/<exp>/ exactly, one curated exp per layer count (num_blocks):
-    results/log_kvrh_fastfood_<N>layer_<E>epochs/
+Handles both the clipped (clipnorm=1.0) and the no-clip (clipnorm=0) ablation trees, one
+curated exp per layer count (num_blocks):
+    results/log_kvrh_fastfood_<N>layer_<E>epochs[_noclip]/
       README.md
       summary_mae_runtime.csv         (one row per run; includes num_blocks)
       predictions/                    (renamed per-run test prediction CSVs, all runs)
       logs/                           (one training log per dimension, lowest model seed)
 
-Reads each run's metadata.json under results_dimenetpp_log_kvrh_fastfood/ and groups by
-num_blocks. Run from DimeNetPP_Matbench:  python scripts/curate_kvrh_results.py
+Reads each run's metadata.json and groups by num_blocks.
+Run from DimeNetPP_Matbench:  python scripts/curate_kvrh_results.py
 """
 import csv
 import json
@@ -18,7 +19,12 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BASE = HERE.parent
-RAW_ROOT = BASE / "results_dimenetpp_log_kvrh_fastfood"
+
+# (raw results root, curated exp-name suffix, gradient-clipping description)
+CONFIGS = [
+    ("results_dimenetpp_log_kvrh_fastfood", "", "gradient clipping `clipnorm=1.0`"),
+    ("results_dimenetpp_log_kvrh_noclip_fastfood", "_noclip", "NO gradient clipping (`clipnorm=0`)"),
+]
 
 SUMMARY_FIELDS = [
     "task", "method", "num_blocks", "dim_percent", "id_dim", "model_seed", "split_seed",
@@ -27,20 +33,22 @@ SUMMARY_FIELDS = [
 ]
 
 
-def curate():
-    # group successful runs by num_blocks
+def curate_root(raw_root, suffix, clip_desc):
+    root = BASE / raw_root
+    if not root.is_dir():
+        print(f"  (skip, no dir: {raw_root})")
+        return
     by_nb = {}
-    for meta in sorted(RAW_ROOT.glob("*/metadata.json")):
+    for meta in sorted(root.glob("*/metadata.json")):
         d = json.loads(meta.read_text())
         if d.get("status") != "success":
             print(f"  skip (status={d.get('status')}): {meta.parent.name}")
             continue
-        nb = int(d["num_blocks"])
-        by_nb.setdefault(nb, []).append((meta.parent, d))
+        by_nb.setdefault(int(d["num_blocks"]), []).append((meta.parent, d))
 
     for nb, runs in sorted(by_nb.items()):
         ep = runs[0][1]["epochs"]
-        exp = BASE / "results" / f"log_kvrh_fastfood_{nb}layer_{ep}epochs"
+        exp = BASE / "results" / f"log_kvrh_fastfood_{nb}layer_{ep}epochs{suffix}"
         pred_dir = exp / "predictions"
         log_dir = exp / "logs"
         pred_dir.mkdir(parents=True, exist_ok=True)
@@ -51,7 +59,7 @@ def curate():
         for run_dir, d in runs:
             dimp = int(d["id_dim_percent"])
             ms, ss = d["model_seed"], d["split_seed"]
-            name = f"log_kvrh_fastfood_nb{nb}_dim{dimp:03d}_modelseed{ms}_splitseed{ss}_epochs{ep}"
+            name = f"log_kvrh_fastfood_nb{nb}{suffix}_dim{dimp:03d}_modelseed{ms}_splitseed{ss}_epochs{ep}"
 
             src = d.get("predictions_csv", "")
             if not (src and Path(src).exists()):
@@ -87,11 +95,12 @@ def curate():
             w.writerows(rows)
 
         dims = sorted({r["dim_percent"] for r in rows}, reverse=True)
+        clip_tag = " (no gradient clipping — ablation)" if suffix else ""
         (exp / "README.md").write_text(
-            f"# DimeNet++ matbench log_kvrh Fastfood results — {nb} layers ({nb} interaction blocks)\n\n"
+            f"# DimeNet++ matbench log_kvrh Fastfood results — {nb} layers ({nb} interaction blocks){clip_tag}\n\n"
             f"{ep}-epoch DimeNet++ log_kvrh Fastfood random-subspace sweep on the full matbench "
             f"log_kvrh dataset, with `num_blocks={nb}` (wrapper-v3, `dimenet_run_kvrh_v3.py`, "
-            f"gradient clipping `clipnorm=1.0`).\n\n"
+            f"{clip_desc}).\n\n"
             f"- `summary_mae_runtime.csv` — validation/test MAE and runtime for every dimension/seed "
             f"run ({len(rows)} runs = {len(dims)} dims x 3 seeds).\n"
             f"- `predictions/` — per-crystal test-set predictions for each run, named by num_blocks, "
@@ -100,9 +109,19 @@ def curate():
             f"(lowest model seed), {len(dims)} dims: {', '.join(f'{x}%' for x in dims)}.\n\n"
             f"Intrinsic-dimension fractions swept: {', '.join(f'{x}%' for x in dims)}. "
             f"Seeds: model/split = 123/1123, 456/1456, 789/1789.\n"
+            + ("\n**Ablation note:** this is the NO-CLIPPING counterpart of "
+               f"`log_kvrh_fastfood_{nb}layer_*epochs/`. Without `clipnorm`, the deeper model's "
+               "random-init loss spike is not tamed and the sweep is badly under-trained "
+               "(markedly worse test MAE at every dimension; the effect is severe at 4 layers).\n"
+               if suffix else "")
         )
-        print(f"nb={nb}: {len(rows)} runs, {len(best_log_per_dim)} dim logs -> {exp}")
+        print(f"[{raw_root}] nb={nb}: {len(rows)} runs, {len(best_log_per_dim)} dim logs -> {exp.name}")
+
+
+def main():
+    for raw_root, suffix, clip_desc in CONFIGS:
+        curate_root(raw_root, suffix, clip_desc)
 
 
 if __name__ == "__main__":
-    curate()
+    main()
