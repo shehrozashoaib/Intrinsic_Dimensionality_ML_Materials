@@ -8,8 +8,7 @@ We train each model inside a random `d`-dimensional subspace of its full paramet
 size. The three backbones — **CGCNN**, **ALIGNN**, **DimeNet++** — are matched to a ~85k-parameter
 budget so the comparison is at equal capacity.
 
-> **This repository contains code only.** Results, tensor caches, datasets, and conda environments
-> are **not** committed — they are downloaded or regenerated with the scripts documented below.
+> **This repository contains code only.** 
 
 ---
 
