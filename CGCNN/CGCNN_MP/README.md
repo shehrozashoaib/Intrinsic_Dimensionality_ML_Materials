@@ -1,5 +1,7 @@
 # CGCNN MP Intrinsic-Dimensionality Experiments
 
+> **Environment and dataset setup are documented once in the [top-level README](../../README.md)** (conda envs in `environments/`, datasets via `data/download_datasets.sh`). Any per-folder install/download commands below are legacy; prefer the top-level setup.
+
 CGCNN part of the intrinsic-dimensionality experiments for materials-property
 prediction. The sweeps train a CGCNN crystal model with a **Fastfood random-subspace
 wrapper** (intrinsic-dimension training: only the low-dimensional `z` is trained, projected

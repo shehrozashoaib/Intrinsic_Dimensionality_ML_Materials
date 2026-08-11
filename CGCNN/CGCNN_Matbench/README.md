@@ -1,5 +1,7 @@
 # CGCNN Matbench Intrinsic-Dimensionality Experiments
 
+> **Environment and dataset setup are documented once in the [top-level README](../../README.md)** (conda envs in `environments/`, datasets via `data/download_datasets.sh`). Any per-folder install/download commands below are legacy; prefer the top-level setup.
+
 This directory contains the CGCNN part of the intrinsic-dimensionality experiments for materials-property prediction. The code trains a Crystal Graph Convolutional Neural Network (CGCNN) on three Matbench regression tasks while constraining optimization to a low-dimensional random subspace with a Fastfood projection.
 
 > **Corrected re-test (current results).** The intrinsic dimension is now swept as a

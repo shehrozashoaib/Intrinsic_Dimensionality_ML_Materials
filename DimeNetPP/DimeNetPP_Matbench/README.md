@@ -1,5 +1,7 @@
 # DimeNet++ Matbench Intrinsic-Dimensionality Experiments
 
+> **Environment and dataset setup are documented once in the [top-level README](../../README.md)** (conda envs in `environments/`, datasets via `data/download_datasets.sh`). Any per-folder install/download commands below are legacy; prefer the top-level setup.
+
 DimeNet++ Matbench part of the intrinsic-dimensionality study for materials-property
 prediction. Trains a DimeNet++ crystal model with a **Fastfood random-subspace wrapper**
 (only the low-dimensional `z` is trained, projected into the full weight space) on the
