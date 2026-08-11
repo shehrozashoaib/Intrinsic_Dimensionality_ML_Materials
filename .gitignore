@@ -1,0 +1,82 @@
+# ============================================================================
+# Intrinsic-Dimensionality ML — .gitignore
+# The repository tracks CODE ONLY. Results, caches, datasets, and environments
+# are regenerated/downloaded via the scripts documented in the README.
+# ============================================================================
+
+# --- experiment results (all model/dataset/task result directories) ---
+**/results*/
+**/dcgm/
+**/predictions/
+**/histories/
+
+# --- built caches / tensorized data ---
+**/cached*/
+
+# --- datasets (downloaded from Zenodo / Matbench, then built into id_prop.json) ---
+**/MP_json*/
+**/partitions/
+**/id_prop.json
+*.jsonl
+
+# --- conda/venv environments (recreate from environments/*.yml) ---
+**/envs/
+**/venv/
+
+# --- logs ---
+**/logs/
+*.log
+*.out
+*.err
+
+# --- model checkpoints / serialized tensors / arrays ---
+*.pth
+*.pth.tar
+*.pt
+*.pkl
+*.npy
+*.npz
+*.weights.h5
+*.h5
+
+# --- python bytecode / caches ---
+**/__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# --- analysis figures & scratch (kept outside the repo) ---
+*.png
+*.pdf
+
+# --- OS / editor cruft ---
+.DS_Store
+*.swp
+
+# --- additional result/data/backup patterns ---
+*.csv
+*.zip
+*.ipynb
+**/partitions_fixedtest/
+**/split.json
+**/alignn_80dense/
+alignn_80dense.zip
+
+# --- catch-all result file patterns (present in every run dir) ---
+**/metadata.json
+**/history*.json
+**/Train_results.json
+**/Val_results.json
+**/*_manifest.json
+**/mad
+**/ids_train_val_test.json
+# --- probe / smoke / benchmark result dirs (non-'results' names) ---
+**/probe_*/
+**/restore_best_test/
+**/bm_smoke*/
+**/smoke_*/
+**/*_smoke/
+**/bench_*/
+# --- source backups ---
+*.bak
+*.bak_*

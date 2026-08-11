@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export ALIGNN_RESTORE_BEST="${ALIGNN_RESTORE_BEST:-1}"  # test the BEST-val checkpoint, not final-epoch
 set -uo pipefail
 
 # ALIGNN Fastfood intrinsic-dimension sweep for MP FORMATION ENERGY.

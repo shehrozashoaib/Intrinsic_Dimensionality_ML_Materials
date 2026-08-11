@@ -774,6 +774,29 @@ def train_dgl(
                 print(f"[save] failed to write last model (OS error): {e}")
             except Exception as e:
                 print(f"[save] failed to write last model: {e}")
+    # ---- RESTORE BEST CHECKPOINT BEFORE TESTING -------------------------------------------
+    # `best_model = net` above is a Python ALIAS, not a copy: net keeps training afterwards, so
+    # without this block `best_model` IS the final-epoch model and best_model.pt is never read
+    # back. That makes the reported test metric a FINAL-EPOCH score, and the overfit penalty is
+    # dim-dependent, which distorts the shape of the intrinsic-dimension curve.
+    # Opt-in via ALIGNN_RESTORE_BEST=1 so previously-produced results stay reproducible.
+    if os.environ.get("ALIGNN_RESTORE_BEST", "0") == "1" and (rank == 0 or world_size == 1):
+        _best_ckpt = os.path.join(config.output_dir, "best_model.pt")
+        if os.path.exists(_best_ckpt):
+            try:
+                _sd = torch.load(_best_ckpt, map_location="cpu", weights_only=True)
+            except TypeError:                      # older torch without weights_only
+                _sd = torch.load(_best_ckpt, map_location="cpu")
+            net.load_state_dict(_sd)
+            best_model = net
+            print(f"[restore_best] RESTORED best weights from {_best_ckpt} "
+                  f"(best val_loss={best_loss:.6f})")
+        else:
+            print(f"[restore_best] WARNING: {_best_ckpt} not found; "
+                  f"testing the FINAL-epoch model")
+    else:
+        print("[restore_best] disabled (ALIGNN_RESTORE_BEST != 1): testing the FINAL-epoch model")
+
     if rank == 0 or world_size == 1:
         if config.write_predictions and classification:
             best_model.eval()
@@ -784,9 +807,14 @@ def train_dgl(
                 ),
                 "w",
             )
-            f.write("id,target,prediction\n")
+            # True probabilistic ROC-AUC: the model head is LogSoftmax, so the
+            # class-1 probability is exp(logsoftmax_logits)[:, 1]. We write that
+            # probability (not a hard 0/1 argmax) so roc_auc_score sees a real
+            # score, and separately report argmax accuracy.
+            f.write("id,target,prob\n")
             targets = []
-            predictions = []
+            probs = []
+            pred_classes = []
             with torch.no_grad():
                 torch.cuda.synchronize()
                 torch.cuda.empty_cache()
@@ -797,24 +825,31 @@ def train_dgl(
                         [g.to(device), lg.to(device), lat.to(device)]
                     )["out"]
                     # out_data = net([g.to(device), lg.to(device)])["out"]
-                    # out_data = torch.exp(out_data.cpu())
-                    # print('target',target)
-                    # print('out_data',out_data)
-                    top_p, top_class = torch.topk(torch.exp(out_data), k=1)
+                    # model output is log-softmax -> exp gives class probs.
+                    prob_arr = np.exp(
+                        out_data.cpu().numpy()
+                    ).reshape(-1)
+                    prob1 = float(prob_arr[1])  # class-1 probability
+                    pred_class = int(np.argmax(prob_arr))
                     target = int(target.cpu().numpy().flatten().tolist()[0])
 
-                    f.write("%s, %d, %d\n" % (id, (target), (top_class)))
+                    f.write("%s, %d, %6f\n" % (id, target, prob1))
                     targets.append(target)
-                    predictions.append(
-                        top_class.cpu().numpy().flatten().tolist()[0]
-                    )
+                    probs.append(prob1)
+                    pred_classes.append(pred_class)
             f.close()
 
-            print("predictions", predictions)
+            print("probs", probs)
             print("targets", targets)
             print(
                 "Test ROCAUC:",
-                roc_auc_score(np.array(targets), np.array(predictions)),
+                roc_auc_score(np.array(targets), np.array(probs)),
+            )
+            print(
+                "Test ACC:",
+                float(
+                    np.mean(np.array(targets) == np.array(pred_classes))
+                ),
             )
 
         if (

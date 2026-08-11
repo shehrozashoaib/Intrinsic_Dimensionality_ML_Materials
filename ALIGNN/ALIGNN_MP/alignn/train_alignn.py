@@ -719,6 +719,10 @@ def train_for_folder(
     # config.keep_data_order = keep_data_order
     if classification_threshold is not None:
         config.classification_threshold = float(classification_threshold)
+        # The base model is built directly from config.model (build_base_model_from_cfg),
+        # so we must flip the model head to the 2-logit LogSoftmax classification head here
+        # -- otherwise it stays a 1-output regression head and NLLLoss shape-mismatches.
+        config.model.classification = True
     if output_dir is not None:
         config.output_dir = output_dir
     if batch_size is not None:

@@ -26,7 +26,7 @@ def hadamard_1d_static(x: tf.Tensor, LL: int) -> tf.Tensor:
     return x
 
 
-def _make_fastfood_params(D: int, dtype=tf.float32, seed: int = 123):
+def _make_fastfood_params(D: int, dtype=tf.float32, seed: int = 123, orthonormal: bool = False):
     LL = _next_power_of_two(D)
 
     b01 = tf.random.stateless_uniform([LL], seed=[seed, 1], minval=0, maxval=2, dtype=tf.int32)
@@ -37,6 +37,12 @@ def _make_fastfood_params(D: int, dtype=tf.float32, seed: int = 123):
     Pi_inv = tf.cast(tf.argsort(Pi, axis=0, stable=True), tf.int32)
 
     G = tf.random.stateless_normal([LL], seed=[seed, 3], dtype=dtype)
+    if orthonormal:
+        # G is the only non-orthogonal factor of M = S*H*G*Pi*H*B. With |G_i| = 1 the product is
+        # orthogonal up to `scale`, so cond(P) stays ~1 instead of exploding as d -> D (measured
+        # 1.1 at d/D=0.01 vs 3598 at d/D=1.0 for the Gaussian draw). Signs are kept so the
+        # projection is still seed-dependent.
+        G = tf.sign(G) + tf.cast(tf.equal(G, 0), dtype)     # map any exact 0 to +1
 
     divisor = tf.sqrt(tf.cast(LL, dtype) * tf.reduce_sum(G * G))
     scale = divisor * tf.sqrt(tf.cast(D, dtype) / tf.cast(LL, dtype))
@@ -182,15 +188,12 @@ class SubspaceProjectedGradTFV3(tf.keras.Model):
 
         if self.method == "dense":
             if (self.d == self.D) and self.full_rotation:
-                eye_np = tf.eye(self.D, dtype=tf.float32).numpy()
-                self.P = self.add_weight(
-                    name="P",
-                    shape=(self.D, self.d),
-                    dtype=tf.float32,
-                    initializer=tf.constant_initializer(eye_np),
-                    trainable=False,
-                )
-                del eye_np
+                # NOTE: self.P is never READ in permute_sign mode -- both _dense_delta() and the
+                # transpose path return before touching it. The original code allocated a full
+                # D x D identity here, which at D=83,685 is 28 GB on the host AND 28 GB on the
+                # device, guaranteeing an OOM. Skip it; the rotation is carried entirely by
+                # _rot_perm / _rot_sign below.
+                self.P = None
 
                 keys = tf.random.stateless_uniform([self.D], seed=[self.seed, 777], dtype=tf.float32)
                 perm_np = tf.argsort(keys, axis=0, stable=True).numpy().astype(np.int32)
@@ -272,7 +275,8 @@ class SubspaceProjectedGradTFV3(tf.keras.Model):
                     block_index += 1
                 print(f"[DenseV3] Stored dense Gaussian projection in {len(self.P_blocks)} block(s) of up to {self.dense_block_cols} columns.")
         else:
-            B, Pi, Pi_inv, G, scale, LL = _make_fastfood_params(self.D, dtype=tf.float32, seed=self.seed)
+            B, Pi, Pi_inv, G, scale, LL = _make_fastfood_params(
+                self.D, dtype=tf.float32, seed=self.seed, orthonormal=self.orthonormal)
             self._ff_B = self.add_weight(
                 name="ff_B",
                 shape=(LL,),

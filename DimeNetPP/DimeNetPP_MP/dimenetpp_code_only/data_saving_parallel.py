@@ -107,6 +107,9 @@ def main():
     p.add_argument("--scaler_filename", required=True)
     p.add_argument("--manifest_filename", default="manifest.pkl")
     p.add_argument("--tmpdir", default="")
+    p.add_argument("--classification", action="store_true",
+                   help="Binary classification mode: keep raw 0/1 labels, skip StandardScaler "
+                        "(y_*_scaled == raw labels as float32). Saves an identity placeholder scaler.")
     args = p.parse_args()
 
     t0 = time.time()
@@ -182,7 +185,21 @@ def main():
             x_split = [tf.gather(full_x[j], positions, axis=0) for j in range(len(MODEL_INPUTS_SPEC))]
             y_split = targets[raws].reshape(-1, 1)
             ids_split = [ids[r] for r in raws]
-            if split == "train":
+            if args.classification:
+                # Binary classification: train directly on the raw 0/1 labels (no scaling).
+                # y_*_scaled therefore equals the raw labels, cast to float32.
+                y_scaled = y_split.astype("float32")
+                if split == "train":
+                    from sklearn.preprocessing import StandardScaler
+                    # Identity placeholder saved only for interface/manifest compatibility:
+                    # transform()/inverse_transform() are no-ops (mean_=0, scale_=1).
+                    scaler = StandardScaler(with_mean=True, with_std=True, copy=True)
+                    scaler.mean_ = np.zeros(1, dtype=float)
+                    scaler.scale_ = np.ones(1, dtype=float)
+                    scaler.var_ = np.ones(1, dtype=float)
+                    scaler.n_features_in_ = 1
+                    scaler.n_samples_seen_ = int(y_split.shape[0])
+            elif split == "train":
                 from sklearn.preprocessing import StandardScaler
                 scaler = StandardScaler(with_mean=True, with_std=True, copy=True)
                 y_scaled = scaler.fit_transform(y_split)

@@ -16,7 +16,21 @@ parser.add_argument("--batch_size", type=int, default=64)
 parser.add_argument("--method", type=str, default="fastfood", choices=["dense", "fastfood"])
 parser.add_argument("--id_dim", type=float, default=1.0)
 parser.add_argument("--num_blocks", type=int, default=1, help="DimeNet++ interaction blocks (layers).")
+parser.add_argument("--int_emb_size", type=int, default=64,
+                    help="Width of the interaction (convolution) block only. Input embedding "
+                         "(emb_size=55), output embedding (out_emb_size=64) and the output hidden "
+                         "layers are unaffected. 64=1x, 128=2x, 256=4x.")
 parser.add_argument("--clipnorm", type=float, default=1.0, help="Global grad-norm clip on the z update (0 disables). Stabilizes the deep (num_blocks>=4) init loss spike.")
+parser.add_argument("--restore_best", action="store_true",
+                    help="Evaluate the BEST-val_loss checkpoint instead of the final-epoch model. "
+                         "Trains the same number of epochs; only changes which weights are tested.")
+parser.add_argument("--patience", type=int, default=0,
+                    help="EarlyStopping patience on val_loss (0 = off, train all epochs). "
+                         "Best weights are still restored via --restore_best regardless.")
+parser.add_argument("--lr", type=float, default=0.001, help="Optimizer learning rate.")
+parser.add_argument("--lr_schedule", type=str, default="none", choices=["none", "onecycle", "cosine"],
+                    help="LR schedule. ALIGNN uses onecycle; DimeNet++ historically used a CONSTANT lr, "
+                         "which is the main protocol difference between the two models.")
 parser.add_argument("--orthonormal", action="store_true")
 parser.add_argument("--full_rotation", action="store_true")
 parser.add_argument("--dense_block_cols", type=int, default=512)
@@ -43,6 +57,7 @@ exp_tag = (
     f"_method={args.method}"
     f"_dim={int(round(args.id_dim * 100))}pct"
     f"_nb={args.num_blocks}"
+    f"_ies={args.int_emb_size}"
     f"_epochs={args.epochs}"
     f"_seed={args.seed}"
     f"_splitseed={split_seed_label}"
@@ -105,7 +120,7 @@ hyper_kvrh = {
             },
             "emb_size": 55,
             "out_emb_size": 64,
-            "int_emb_size": 64,
+            "int_emb_size": args.int_emb_size,
             "basis_emb_size": 8,
             "num_blocks": args.num_blocks,
             "num_spherical": 7,
@@ -195,7 +210,7 @@ else:
     print("D:", run_model.D, "d:", run_model.d)
     print("Trainable vars:", [v.name for v in run_model.trainable_variables])
 
-_opt_kwargs = dict(learning_rate=0.001, weight_decay=0.0, amsgrad=True)
+_opt_kwargs = dict(learning_rate=args.lr, weight_decay=0.0, amsgrad=True)
 if args.clipnorm and args.clipnorm > 0:
     _opt_kwargs["clipnorm"] = args.clipnorm
 print("Optimizer AdamW kwargs:", _opt_kwargs)
@@ -207,6 +222,79 @@ run_model.compile(
 
 run_model.summary()
 
+_callbacks = []
+_ckpt_path = os.path.join(args.out_dir, "best_weights.weights.h5")
+
+
+class _BestTrainableInMemory(tf.keras.callbacks.Callback):
+    """Keep the best-val TRAINABLE weights in memory instead of writing a checkpoint.
+
+    ModelCheckpoint(save_weights_only=True) serialises EVERY weight, including the frozen
+    projection P. For method=dense that is a D x d matrix -- 28 GB at dim-100% (D=83,685) --
+    written on every improvement, which filled the disk and killed the whole dense sweep.
+    P and theta0 are deterministic given --seed and are never trained, so the only thing worth
+    keeping is the trainable set: z (d floats, <=335 KB) when wrapped, or the model parameters
+    when --train_mode base. Restoring those reproduces the best model exactly.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.best = float("inf")
+        self.weights = None
+        self.epoch = None
+
+    def on_epoch_end(self, epoch, logs=None):
+        v = (logs or {}).get("val_loss")
+        if v is not None and v < self.best:
+            self.best = float(v)
+            self.weights = [w.numpy().copy() for w in self.model.trainable_variables]
+            self.epoch = epoch + 1
+
+    def restore(self):
+        if self.weights is None:
+            return False
+        for var, val in zip(self.model.trainable_variables, self.weights):
+            var.assign(val)
+        return True
+
+
+_best_cb = _BestTrainableInMemory() if args.restore_best else None
+if _best_cb is not None:
+    _callbacks.append(_best_cb)
+if args.patience and args.patience > 0:
+    _callbacks.append(tf.keras.callbacks.EarlyStopping(
+        monitor="val_loss", patience=args.patience, verbose=1,
+        restore_best_weights=False))   # restore handled explicitly below
+# ---- LR schedule ---------------------------------------------------------------------------
+# Ported verbatim from dimenet_run_eform_v3.py so the one-cycle arm is identical across tasks.
+# Mirrors torch.optim.lr_scheduler.OneCycleLR defaults (pct_start=0.3, cos anneal,
+# div_factor=25, final_div_factor=1e4) so the DimeNet++ arm matches ALIGNN's `scheduler: onecycle`.
+if args.lr_schedule != "none":
+    import math as _math
+
+    _max_lr = args.lr
+    _pct_start, _div, _final_div = 0.3, 25.0, 1e4
+    _init_lr = _max_lr / _div
+    _min_lr = _init_lr / _final_div
+
+    def _lr_at(epoch):
+        t = epoch / max(1, args.epochs - 1)
+        if args.lr_schedule == "cosine":
+            return _min_lr + 0.5 * (_max_lr - _min_lr) * (1 + _math.cos(_math.pi * t))
+        if t < _pct_start:                      # linear warm-up
+            return _init_lr + (_max_lr - _init_lr) * (t / _pct_start)
+        p = (t - _pct_start) / (1 - _pct_start)  # cosine anneal to ~0
+        return _min_lr + 0.5 * (_max_lr - _min_lr) * (1 + _math.cos(_math.pi * p))
+
+    _callbacks.append(tf.keras.callbacks.LearningRateScheduler(
+        lambda e, _lr: float(_lr_at(e)), verbose=0))
+    print(f"[lr_schedule] {args.lr_schedule}: init={_init_lr:.3e} max={_max_lr:.3e} "
+          f"min={_min_lr:.3e} over {args.epochs} epochs")
+else:
+    print("[lr_schedule] none (constant lr)")
+
+print("[callbacks] restore_best=%s patience=%s" % (args.restore_best, args.patience))
+
 hist = run_model.fit(
     x_train,
     y_train_scaled,
@@ -215,7 +303,15 @@ hist = run_model.fit(
     epochs=args.epochs,
     verbose=2,
     validation_freq=1,
+    callbacks=_callbacks,
 )
+
+if _best_cb is not None and _best_cb.restore():
+    _vl = hist.history.get("val_loss", [float("nan")])
+    print(f"[restore_best] RESTORED best weights (best val_loss={min(_vl):.6f}, "
+          f"final val_loss={_vl[-1]:.6f}, epochs_run={len(_vl)}, best_epoch={_best_cb.epoch})")
+elif args.restore_best:
+    print("[restore_best] WARNING: no improvement was recorded; keeping final-epoch weights")
 
 pred_test_scaled = run_model.predict(x_test, verbose=0)
 pred_test = scaler.inverse_transform(np.asarray(pred_test_scaled).reshape(-1, 1)).reshape(-1)

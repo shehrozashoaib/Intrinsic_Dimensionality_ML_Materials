@@ -1,6 +1,6 @@
 #!/bin/bash --login
 # Parallel build-once + reshuffle into 3 seed splits, for one dataset (16-worker spawn pool).
-# Pick dataset with DIMENET_DATASET=eform|bandgap.
+# Pick dataset with DIMENET_DATASET=eform|bandgap|phonons|dielectric|log_kvrh.
 # Submit from DimeNetPP_MP:  sbatch --export=ALL,DIMENET_DATASET=eform  scripts/build_tensors_parallel.slurm
 #SBATCH --job-name=dim_build_par
 #SBATCH --partition=batch
@@ -37,6 +37,20 @@ elif [[ "$DATASET" == "bandgap" ]]; then
   SAVE_ROOT="${DIMENET_BANDGAP_CACHE_ROOT:-cached_tensors_dimenetpp_bandgap}"
   TENSOR_FN="dimenetpp_bandgap_cached_tensors.pkl"
   SCALER_FN="scaler_bandgap.pkl"
+elif [[ "$DATASET" == "phonons" ]]; then
+  SOURCE="eform_idprop"
+  INPUT="${DIMENET_PHON_ID_PROP:-../../ALIGNN/ALIGNN_MP/alignn/MP_json_phonons/id_prop.json}"
+  TARGET_KEY="phonons"
+  SAVE_ROOT="${DIMENET_PHON_CACHE_ROOT:-cached_tensors_dimenetpp_phonons}"
+  TENSOR_FN="dimenetpp_phonons_cached_tensors.pkl"
+  SCALER_FN="scaler_phonons.pkl"
+elif [[ "$DATASET" == "dielectric" ]]; then
+  SOURCE="eform_idprop"
+  INPUT="${DIMENET_DIEL_ID_PROP:-../../ALIGNN/ALIGNN_MP/alignn/MP_json_dielectric/id_prop.json}"
+  TARGET_KEY="dielectric"
+  SAVE_ROOT="${DIMENET_DIEL_CACHE_ROOT:-cached_tensors_dimenetpp_dielectric}"
+  TENSOR_FN="dimenetpp_dielectric_cached_tensors.pkl"
+  SCALER_FN="scaler_dielectric.pkl"
 elif [[ "$DATASET" == "log_kvrh" ]]; then
   # Reuse the generic ALIGNN id_prop.json reader (JARVIS atoms -> pymatgen). The log_kvrh
   # id_prop.json was built by ALIGNN/ALIGNN_MP/alignn/build_log_kvrh_idprop.py.

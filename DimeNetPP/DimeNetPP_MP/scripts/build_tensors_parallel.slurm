@@ -1,6 +1,6 @@
 #!/bin/bash --login
 # Parallel build-once + reshuffle into 3 seed splits, for one dataset (16-worker spawn pool).
-# Pick dataset with DIMENET_DATASET=eform|bandgap.
+# Pick dataset with DIMENET_DATASET=eform|bandgap|is_metal.
 # Submit from DimeNetPP_MP:  sbatch --export=ALL,DIMENET_DATASET=eform  scripts/build_tensors_parallel.slurm
 #SBATCH --job-name=dim_build_par
 #SBATCH --partition=batch
@@ -15,10 +15,11 @@ mkdir -p logs
 source scripts/dimenet_env.sh
 
 CODE_DIR="dimenetpp_code_only"
-DATASET="${DIMENET_DATASET:?set DIMENET_DATASET=eform|bandgap}"
+DATASET="${DIMENET_DATASET:?set DIMENET_DATASET=eform|bandgap|is_metal}"
 WORKERS="${DIMENET_BUILD_WORKERS:-16}"
-SEEDS="${DIMENET_BUILD_SEEDS:-1123,1456,1789}"
 LIMIT="${DIMENET_DATA_LIMIT:-0}"
+CLASSIFICATION=""
+DEFAULT_SEEDS="1123,1456,1789"
 # build chunk temp files on fast node-local scratch if available
 TMPDIR_BUILD="${DIMENET_BUILD_TMPDIR:-${TMPDIR:-/tmp}/dimenet_build_${SLURM_JOB_ID:-$$}}"
 mkdir -p "$TMPDIR_BUILD"
@@ -37,9 +38,20 @@ elif [[ "$DATASET" == "bandgap" ]]; then
   SAVE_ROOT="${DIMENET_BANDGAP_CACHE_ROOT:-cached_tensors_dimenetpp_bandgap}"
   TENSOR_FN="dimenetpp_bandgap_cached_tensors.pkl"
   SCALER_FN="scaler_bandgap.pkl"
+elif [[ "$DATASET" == "is_metal" ]]; then
+  SOURCE="eform_idprop"   # same reader: JARVIS atoms dicts + material_id, target read via --target_key
+  INPUT="${DIMENET_IS_METAL_ID_PROP:-../../ALIGNN/ALIGNN_MP/alignn/MP_json_is_metal/id_prop.json}"
+  TARGET_KEY="is_metal"
+  SAVE_ROOT="${DIMENET_IS_METAL_CACHE_ROOT:-cached_tensors_dimenetpp_is_metal}"
+  TENSOR_FN="dimenetpp_is_metal_cached_tensors.pkl"
+  SCALER_FN="scaler_is_metal.pkl"
+  CLASSIFICATION="--classification"   # keep raw 0/1 labels, no StandardScaler
+  DEFAULT_SEEDS="1101,1202,1303,1404"
 else
   echo "Unknown DIMENET_DATASET=$DATASET" >&2; exit 1
 fi
+
+SEEDS="${DIMENET_BUILD_SEEDS:-$DEFAULT_SEEDS}"
 
 if [[ ! -f "$INPUT" ]]; then echo "ERROR: input not found: $INPUT" >&2; exit 1; fi
 
@@ -53,7 +65,7 @@ echo "Start: $(date -Iseconds)"
   --seeds "$SEEDS" --workers "$WORKERS" --limit "$LIMIT" \
   --save_root "$SAVE_ROOT" \
   --tensor_filename "$TENSOR_FN" --scaler_filename "$SCALER_FN" \
-  --tmpdir "$TMPDIR_BUILD"
+  --tmpdir "$TMPDIR_BUILD" $CLASSIFICATION
 
 rm -rf "$TMPDIR_BUILD" 2>/dev/null || true
 echo "End: $(date -Iseconds)"

@@ -14,7 +14,7 @@ import torch.nn as nn
 import torch.optim as optim
 from sklearn import metrics
 from torch.autograd import Variable
-from torch.optim.lr_scheduler import MultiStepLR
+from torch.optim.lr_scheduler import MultiStepLR, OneCycleLR, CosineAnnealingLR
 from torch.utils.data import Dataset, DataLoader
 
 from cgcnn.data import CIFData, TensorCIFData
@@ -77,6 +77,14 @@ test_group.add_argument('--test-ratio', default=0.1, type=float, metavar='N',
 test_group.add_argument('--test-size', default=None, type=int, metavar='N',
                         help='number of test data to be loaded (default 1000)')
 
+parser.add_argument('--lr-schedule', default='multistep', type=str,
+                    choices=['multistep', 'onecycle', 'cosine'],
+                    help="LR schedule. 'multistep' (default) is upstream CGCNN behaviour: "
+                         "x0.1 at --lr-milestones. 'onecycle' anneals to ~0 (matches ALIGNN).")
+parser.add_argument('--pct-start', default=0.3, type=float,
+                    help='OneCycleLR: fraction of training spent RISING to max_lr. The default '
+                         '0.3 anneals too early for very small subspaces (d=2 needs ~90 epochs of '
+                         'sustained high lr before it escapes the constant-prediction regime).')
 parser.add_argument('--optim', default='Adam', type=str, metavar='Adam',
                     help='choose an optimizer, SGD or Adam, (default: Adam)')
 parser.add_argument('--atom-fea-len', default=64, type=int, metavar='N',
@@ -186,6 +194,19 @@ def build_cgcnn_from_dataset(dataset):
     return model
 
 
+def build_scheduler(optimizer):
+    """LR schedule. 'multistep' reproduces upstream CGCNN (x0.1 at --lr-milestones); 'onecycle'
+    anneals the lr to ~0 using the same PyTorch defaults ALIGNN uses (pct_start 0.3, cos,
+    div_factor 25, final_div_factor 1e4). Stepped once per EPOCH, so total_steps = args.epochs."""
+    if args.lr_schedule == 'onecycle':
+        return OneCycleLR(optimizer, max_lr=args.lr, total_steps=args.epochs,
+                          pct_start=args.pct_start, anneal_strategy='cos',
+                          div_factor=25.0, final_div_factor=1e4)
+    if args.lr_schedule == 'cosine':
+        return CosineAnnealingLR(optimizer, T_max=args.epochs)
+    return MultiStepLR(optimizer, milestones=args.lr_milestones, gamma=0.1)
+
+
 def make_criterion_and_optimizer(model):
     criterion = nn.NLLLoss() if args.task == 'classification' else nn.MSELoss()
     opt_params = trainable_parameters(model)
@@ -207,7 +228,7 @@ def run_training(task_name, train_loader, val_loader, test_loader, train_dataset
     model = build_cgcnn_from_dataset(train_dataset)
     criterion, optimizer = make_criterion_and_optimizer(model)
     normalizer = make_normalizer(train_dataset)
-    scheduler = MultiStepLR(optimizer, milestones=args.lr_milestones, gamma=0.1)
+    scheduler = build_scheduler(optimizer)
 
     best_metric = 1e10 if args.task == 'regression' else 0.0
     checkpoint_name = output_dir / f'{task_name}_checkpoint.pth.tar'
@@ -384,8 +405,7 @@ def main():
                 else:
                     print("=> no checkpoint found at '{}'".format(args.resume))
 
-            scheduler = MultiStepLR(optimizer, milestones=args.lr_milestones,
-                                    gamma=0.1)
+            scheduler = build_scheduler(optimizer)
 
             for epoch in range(args.start_epoch, args.epochs):
                 # train for one epoch

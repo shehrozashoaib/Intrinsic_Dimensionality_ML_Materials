@@ -12,6 +12,7 @@
 #SBATCH --output=logs/eform_job_%j.out
 #SBATCH --error=logs/eform_job_%j.err
 
+export ALIGNN_RESTORE_BEST="${ALIGNN_RESTORE_BEST:-1}"  # test the BEST-val checkpoint, not final-epoch
 set -euo pipefail
 mkdir -p logs
 

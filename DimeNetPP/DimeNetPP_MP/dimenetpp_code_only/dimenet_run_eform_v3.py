@@ -15,6 +15,20 @@ parser.add_argument("--epochs", type=int, default=350)
 parser.add_argument("--batch_size", type=int, default=64)
 parser.add_argument("--method", type=str, default="fastfood", choices=["dense", "fastfood"])
 parser.add_argument("--id_dim", type=float, default=1.0)
+parser.add_argument("--num_blocks", type=int, default=1, help="DimeNet++ interaction blocks (layers).")
+parser.add_argument("--clipnorm", type=float, default=0.0, help="Global grad-norm clip on the z update (0 disables). Stabilizes the deep (num_blocks>=4) init loss spike.")
+parser.add_argument("--restore_best", action="store_true",
+                    help="Evaluate the BEST-val_loss checkpoint instead of the final-epoch model.")
+parser.add_argument("--patience", type=int, default=0,
+                    help="EarlyStopping patience on val_loss (0 = off, train all epochs). "
+                         "Best weights are still restored via --restore_best regardless.")
+parser.add_argument("--lr", type=float, default=0.001, help="Optimizer learning rate.")
+parser.add_argument("--optimizer", type=str, default="adamw", choices=["adamw", "sgd"],
+                    help="adamw (default, per-coordinate preconditioning) or plain sgd.")
+parser.add_argument("--momentum", type=float, default=0.9, help="SGD momentum (ignored for adamw).")
+parser.add_argument("--lr_schedule", type=str, default="none", choices=["none", "onecycle", "cosine"],
+                    help="LR schedule. ALIGNN uses onecycle; DimeNet++ historically used a CONSTANT lr, "
+                         "which is the main protocol difference between the two models.")
 parser.add_argument("--orthonormal", action="store_true")
 parser.add_argument("--full_rotation", action="store_true")
 parser.add_argument("--dense_block_cols", type=int, default=512)
@@ -48,6 +62,9 @@ exp_tag = (
     f"_blockcols={args.dense_block_cols if args.method == 'dense' else 0}"
     f"_orthobackend={args.orthonormal_backend if args.orthonormal else 'none'}"
     f"_train_mode={args.train_mode}"
+    f"_opt={args.optimizer}"
+    f"_sched={args.lr_schedule}"
+    f"_lr={args.lr}"
     f"_task=eform"
 )
 
@@ -104,7 +121,7 @@ hyper_eform_alignnish = {
             "out_emb_size": 64,
             "int_emb_size": 64,
             "basis_emb_size": 8,
-            "num_blocks": 1,
+            "num_blocks": args.num_blocks,
             "num_spherical": 7,
             "num_radial": 6,
             "cutoff": 8.0,
@@ -191,13 +208,66 @@ else:
     print("D:", run_model.D, "d:", run_model.d)
     print("Trainable vars:", [v.name for v in run_model.trainable_variables])
 
+if args.optimizer == "sgd":
+    # Plain SGD: no per-coordinate preconditioner, so the z-space -> theta-space geometry
+    # distortion introduced by the projection P is far weaker than under Adam.
+    _opt_kwargs = dict(learning_rate=args.lr, momentum=args.momentum, nesterov=False)
+    if args.clipnorm and args.clipnorm > 0:
+        _opt_kwargs["clipnorm"] = args.clipnorm
+    _optimizer = tf.keras.optimizers.SGD(**_opt_kwargs)
+    print("Optimizer SGD kwargs:", _opt_kwargs)
+else:
+    _opt_kwargs = dict(learning_rate=args.lr, weight_decay=0.0, amsgrad=True)
+    if args.clipnorm and args.clipnorm > 0:
+        _opt_kwargs["clipnorm"] = args.clipnorm
+    _optimizer = tf.keras.optimizers.AdamW(**_opt_kwargs)
+    print("Optimizer AdamW kwargs:", _opt_kwargs)
 run_model.compile(
-    optimizer=tf.keras.optimizers.AdamW(learning_rate=0.001, weight_decay=0.0, amsgrad=True),
+    optimizer=_optimizer,
     loss=tf.keras.losses.MeanSquaredError(),
     jit_compile=False,
 )
 
 run_model.summary()
+
+_callbacks = []
+_ckpt_path = os.path.join(args.out_dir, "best_weights.weights.h5")
+if args.restore_best:
+    _callbacks.append(tf.keras.callbacks.ModelCheckpoint(
+        _ckpt_path, monitor="val_loss", save_best_only=True,
+        save_weights_only=True, verbose=0))
+if args.patience and args.patience > 0:
+    _callbacks.append(tf.keras.callbacks.EarlyStopping(
+        monitor="val_loss", patience=args.patience, verbose=1,
+        restore_best_weights=False))   # restore handled explicitly below
+# ---- LR schedule ---------------------------------------------------------------------------
+# Mirrors torch.optim.lr_scheduler.OneCycleLR defaults (pct_start=0.3, cos anneal,
+# div_factor=25, final_div_factor=1e4) so the DimeNet++ arm matches ALIGNN's `scheduler: onecycle`.
+if args.lr_schedule != "none":
+    import math as _math
+
+    _max_lr = args.lr
+    _pct_start, _div, _final_div = 0.3, 25.0, 1e4
+    _init_lr = _max_lr / _div
+    _min_lr = _init_lr / _final_div
+
+    def _lr_at(epoch):
+        t = epoch / max(1, args.epochs - 1)
+        if args.lr_schedule == "cosine":
+            return _min_lr + 0.5 * (_max_lr - _min_lr) * (1 + _math.cos(_math.pi * t))
+        if t < _pct_start:                      # linear warm-up
+            return _init_lr + (_max_lr - _init_lr) * (t / _pct_start)
+        p = (t - _pct_start) / (1 - _pct_start)  # cosine anneal to ~0
+        return _min_lr + 0.5 * (_max_lr - _min_lr) * (1 + _math.cos(_math.pi * p))
+
+    _callbacks.append(tf.keras.callbacks.LearningRateScheduler(
+        lambda e, _lr: float(_lr_at(e)), verbose=0))
+    print(f"[lr_schedule] {args.lr_schedule}: init={_init_lr:.3e} max={_max_lr:.3e} "
+          f"min={_min_lr:.3e} over {args.epochs} epochs")
+else:
+    print("[lr_schedule] none (constant lr)")
+
+print("[callbacks] restore_best=%s patience=%s" % (args.restore_best, args.patience))
 
 hist = run_model.fit(
     x_train,
@@ -207,7 +277,14 @@ hist = run_model.fit(
     epochs=args.epochs,
     verbose=2,
     validation_freq=1,
+    callbacks=_callbacks,
 )
+
+if args.restore_best and os.path.exists(_ckpt_path):
+    run_model.load_weights(_ckpt_path)
+    _vl = hist.history.get("val_loss", [float("nan")])
+    print(f"[restore_best] RESTORED best weights (best val_loss={min(_vl):.6f}, "
+          f"final val_loss={_vl[-1]:.6f}, epochs_run={len(_vl)})")
 
 pred_test_scaled = run_model.predict(x_test, verbose=0)
 pred_test = scaler.inverse_transform(np.asarray(pred_test_scaled).reshape(-1, 1)).reshape(-1)
