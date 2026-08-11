@@ -22,7 +22,8 @@ CGCNN/
   CGCNN_MP/          # Materials Project tasks (formation energy, band gap, is_metal)
   CGCNN_Matbench/    # Matbench tasks (dielectric, log-K_VRH, phonons, is_metal)
 ALIGNN/
-  ALIGNN_MP/         # ALIGNN for both MP and Matbench tasks (single tree)
+  ALIGNN_MP/         # Materials Project tasks (formation energy, band gap, is_metal)
+  ALIGNN_Matbench/   # Matbench tasks (dielectric, log-K_VRH, phonons)
 DimeNetPP/
   DimeNetPP_MP/          # Materials Project tasks
   DimeNetPP_Matbench/    # Matbench tasks
@@ -145,12 +146,12 @@ Each experiment reported in the paper maps to the scripts below. `<model>` is `C
 |---|---|---|
 | **Fig. 2** | Main intrinsic-dimension sweep — 3 models x 6 tasks (formation energy, band gap, is_metal, dielectric, log-K_VRH, phonons) | `<model>/<dataset>/scripts/run_*_fastfood_*_sweep.sh` |
 | **Table 1** | Parameter-matched (~85k) configs and d=D reference | ALIGNN `configs/config_*.json`; CGCNN/DimeNet++ flags in the sweep scripts |
-| **Fig. 3** | Dataset-size response — full / quarter / tenth subsets (ALIGNN + DimeNet++; eform, band gap, log-K_VRH) | build: `ALIGNN/ALIGNN_MP/alignn/build_{mp_quarters,kvrh_quarters,kvrh_tenths}.py`, `DimeNetPP/*/scripts/build_partition_tensors.slurm`; run: `run_alignn_fastfood_bandgap_sweep.sh` (per-seed splits), `DimeNetPP/DimeNetPP_Matbench/scripts/run_dimenetpp_kvrh_bestmodel_sweep.sh` |
-| **Fig. 4** | Model-width sweep (conv channels), log-K_VRH | `ALIGNN/ALIGNN_MP/scripts/run_alignn_convwidth_kvrh_sweep.sh`, `DimeNetPP/DimeNetPP_Matbench/scripts/run_dimenetpp_fastfood_kvrh_convwidth_sweep.sh` |
+| **Fig. 3** | Dataset-size response — full / quarter / tenth subsets (ALIGNN + DimeNet++; eform, band gap, log-K_VRH) | build: `ALIGNN/ALIGNN_MP/alignn/build_mp_quarters.py, ALIGNN/ALIGNN_Matbench/alignn/build_kvrh_{quarters,tenths}.py`, `DimeNetPP/*/scripts/build_partition_tensors.slurm`; run: `run_alignn_fastfood_bandgap_sweep.sh` (per-seed splits), `DimeNetPP/DimeNetPP_Matbench/scripts/run_dimenetpp_kvrh_bestmodel_sweep.sh` |
+| **Fig. 4** | Model-width sweep (conv channels), log-K_VRH | `ALIGNN/ALIGNN_Matbench/scripts/run_alignn_convwidth_kvrh_sweep.sh`, `DimeNetPP/DimeNetPP_Matbench/scripts/run_dimenetpp_fastfood_kvrh_convwidth_sweep.sh` |
 | **Fig. S1** | Projection-construction control — Dense / Fastfood / dense-orth. / Fastfood-orth. (DimeNet++, log-K_VRH) | `DimeNetPP/DimeNetPP_Matbench/launch_wrapper_variants.sh`, `DimeNetPP/DimeNetPP_MP/dimenetpp_code_only/run_dense_{,orthonormal_}sweep_v3.sh` |
 | Methods control | Optimizer / LR-schedule / no-wrapper controls (DimeNet++) | `run_dimenetpp_optimizer_test.sh`, `run_dimenetpp_arm_sweep.sh`, `run_dimenetpp_nowrapper_eform.sh`, `DimeNetPP/DimeNetPP_Matbench/scripts/run_dimenetpp_dielectric_arm.sh` |
 | Methods control | Depth control — 2-layer configs | `configs/config_*_2layer.json`, `run_*_2layer_*.sh` (all three models) |
-| Methods control | Phonon label-shuffle (memorization) | `*_phonons*` sweeps; `ALIGNN/.../build_phonons_idprop.py` |
+| Methods control | Phonon label-shuffle (memorization) | `*_phonons*` sweeps; `ALIGNN/ALIGNN_Matbench/alignn/build_phonons_idprop.py` |
 
 The random-subspace wrapper itself: `cgcnn/subspace.py` (CGCNN), inside `alignn/train_alignn.py`
 (ALIGNN), `dimenetpp_code_only/wrapper_tensorflow_v3.py` (DimeNet++). See
