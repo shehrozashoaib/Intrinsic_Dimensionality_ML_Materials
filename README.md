@@ -176,5 +176,7 @@ control. Implementations:
   **`docs/SOURCE_MODIFICATIONS.md`** (wrapper, optimizer/schedule flags, best-model checkpoint fix).
 - Seeds set both the model initialization and the train/val/test split; sweeps use multiple seeds
   per dimension to quantify seed-to-seed variance.
-- Results and caches are intentionally untracked (`.gitignore`); regenerate them with the scripts
-  above. A curated results release will be added in a separate subfolder later.
+- Raw run outputs and caches are intentionally untracked (`.gitignore`); regenerate them with the
+  scripts above. A **curated results release** — the validation + test metric behind every plotted
+  point, organized as `results/<Model>/<task>/<partition>.csv` — is tracked under
+  [`results/`](results/) (see `results/README.md`).
